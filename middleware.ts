@@ -14,14 +14,14 @@ export default auth((req: NextRequest & { auth: { user?: { role?: string } } | n
   if (nextUrl.pathname.startsWith("/admin")) {
     if (!isLoggedIn) {
       return NextResponse.redirect(
-        new URL(`/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`, req.url)
+        new URL(`/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`, req.nextUrl.origin)
       );
     }
     if (userRole !== "ADMIN") {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL("/", req.nextUrl.origin));
     }
     if (nextUrl.pathname === "/admin") {
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+      return NextResponse.redirect(new URL("/admin/dashboard", req.nextUrl.origin));
     }
     return NextResponse.next();
   }
@@ -34,14 +34,14 @@ export default auth((req: NextRequest & { auth: { user?: { role?: string } } | n
 
   if (isProtected && !isLoggedIn) {
     return NextResponse.redirect(
-      new URL(`/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`, req.url)
+      new URL(`/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`, req.nextUrl.origin)
     );
   }
 
   // ── Redirect logged-in users away from auth pages ─────────────────────────
   const authPaths = ["/login", "/register"];
   if (isLoggedIn && authPaths.includes(nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
   return NextResponse.next();
