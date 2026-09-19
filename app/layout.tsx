@@ -43,8 +43,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] dark:bg-gray-950 dark:text-gray-100 transition-colors duration-200">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
           <SessionProvider>
             <AgeGate />
             <Header />
