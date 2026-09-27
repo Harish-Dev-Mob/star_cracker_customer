@@ -30,10 +30,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "http://localhost:3000",
+    url: "https://star-cracker-customer",
     siteName: "StarCracker",
   },
 };
+
+import { FixedBottomBanner } from "@/components/layout/FixedBottomBanner";
 
 export default function RootLayout({
   children,
@@ -46,8 +48,9 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
           <SessionProvider>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-14">{children}</main>
             <Footer />
+            <FixedBottomBanner />
             <ToastProvider />
           </SessionProvider>
         </ThemeProvider>
