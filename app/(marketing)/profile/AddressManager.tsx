@@ -6,7 +6,18 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { toast } from "@/components/ui/Toast";
-import { Address } from "@prisma/client";
+
+type Address = {
+  id: string;
+  name: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country?: string;
+  isDefault?: boolean;
+};
 
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
@@ -112,7 +123,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
           <Input name="pincode" label="Pincode" placeholder="6 digits" defaultValue={editingAddress?.pincode ?? ""} required className="bg-white/50" />
           
           <div className="sm:col-span-2 mt-6 pt-6 border-t border-gray-100 flex gap-4 justify-end">
-            <Button type="button" variant="outline" onClick={handleCloseForm} className="px-6 rounded-full border-gray-200 hover:bg-gray-50 text-gray-600">
+            <Button type="button" variant="secondary" onClick={handleCloseForm} className="px-6 rounded-full border-gray-200 hover:bg-gray-50 text-gray-600">
               Cancel
             </Button>
             <Button type="submit" isLoading={loading} variant="primary" className="px-8 rounded-full shadow-md shadow-[var(--color-primary)]/20 hover:shadow-lg hover:shadow-[var(--color-primary)]/30 transition-all">
@@ -152,7 +163,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
           <p className="text-gray-500 text-sm max-w-sm mx-auto mb-6">
             You haven't set up a delivery address yet. Add one now to speed up your future checkouts.
           </p>
-          <Button onClick={() => handleOpenForm()} variant="outline" className="rounded-full border-gray-200 text-gray-700 hover:bg-gray-50">
+          <Button onClick={() => handleOpenForm()} variant="secondary" className="rounded-full border-gray-200 text-gray-700 hover:bg-gray-50">
             Set Up Address
           </Button>
         </div>

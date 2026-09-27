@@ -221,7 +221,7 @@ export default function CheckoutPage() {
                 <h2 className="font-display text-lg font-bold mb-4">📍 Delivery Address</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input name="name" label="Full Name" defaultValue={addressData?.name ?? user?.name ?? ""} error={errors["address.name"]} required />
-                  <Input name="phone" label="Mobile" placeholder="9876543210" defaultValue={addressData?.phone ?? user?.phone ?? ""} error={errors["address.phone"]} required leftAddon={<span className="text-xs">+91</span>} />
+                  <Input name="phone" label="Mobile" placeholder="9876543210" defaultValue={addressData?.phone ?? (user as any)?.phone ?? ""} error={errors["address.phone"]} required leftAddon={<span className="text-xs">+91</span>} />
                   <div className="sm:col-span-2">
                     <Input name="street" label="Street Address" placeholder="House/Flat no., Street, Area" defaultValue={addressData?.street ?? ""} error={errors["address.street"]} required />
                   </div>

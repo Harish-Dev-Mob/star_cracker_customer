@@ -1,9 +1,10 @@
-import * as admin from 'firebase-admin';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
-if (!admin.apps.length) {
+if (!getApps().length) {
   try {
-    admin.initializeApp({
-      credential: admin.credential.cert({
+    initializeApp({
+      credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
         // Replace literal \n with actual newlines if needed
@@ -15,4 +16,4 @@ if (!admin.apps.length) {
   }
 }
 
-export const authAdmin = admin.apps.length ? admin.auth() : null;
+export const authAdmin = getApps().length ? getAuth() : null;

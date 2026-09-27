@@ -126,9 +126,8 @@ export default function Header() {
                     <span className="absolute inset-0 bg-gray-100 dark:bg-gray-800 rounded-full -z-10 scale-0 group-hover:scale-100 transition-transform duration-200 origin-center" />
                   )}
                   <span className="relative z-10">
-                    {link.label === "Products" ? t.header.shop :
-                      link.label === "About" ? t.header.about :
-                      link.label === "Categories" ? "Categories" : link.label}
+                    {link.label === "Categories" ? "Categories" :
+                      link.label === "About" ? t.header.about : link.label}
                   </span>
                 </Link>
               );
@@ -352,9 +351,8 @@ export default function Header() {
                       : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:translate-x-1"
                   )}
                 >
-                  {link.label === "Products" ? t.header.shop :
-                    link.label === "About" ? t.header.about :
-                    link.label === "Categories" ? "Categories" : link.label}
+                  {link.label === "Categories" ? "Categories" :
+                    link.label === "About" ? t.header.about : link.label}
                 </Link>
               );
             })}
