@@ -39,6 +39,12 @@ function LoginForm() {
       return;
     }
 
+    if (parsed.data.identifier.toLowerCase() === "admin@firecrackers.in") {
+      setErrors({ identifier: "Admin accounts cannot login here. Please use the Admin Portal." });
+      setLoading(false);
+      return;
+    }
+
     const result = await signIn("credentials", {
       identifier: parsed.data.identifier,
       password: parsed.data.password,

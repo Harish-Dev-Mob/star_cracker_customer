@@ -32,9 +32,6 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [coupon, setCoupon] = useState("");
-  const [discount, setDiscount] = useState(0);
-  const [couponApplied, setCouponApplied] = useState(false);
   const [deliveryType, setDeliveryType] = useState<"DELIVERY" | "PICKUP">("DELIVERY");
   const [siteConfig, setSiteConfig] = useState<Record<string, string>>({});
   const [configLoaded, setConfigLoaded] = useState(false);
@@ -46,8 +43,11 @@ export default function CheckoutPage() {
   const [freeDeliveryThreshold, setFreeDeliveryThreshold] = useState(999);
   const [ordersClosed, setOrdersClosed] = useState(false);
   const [minOrderValue, setMinOrderValue] = useState(0);
-  const delivery = deliveryType === "PICKUP" ? 0 : (total >= freeDeliveryThreshold ? 0 : deliveryFeeAmount);
+  const delivery = 0; // Delivery is free
 
+
+  const [addressData, setAddressData] = useState<any>(null);
+  const [addressLoaded, setAddressLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/public/site-config")
@@ -76,29 +76,29 @@ export default function CheckoutPage() {
         }
       })
       .catch(console.error);
+
+    fetch("/api/user/address")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.address) {
+          setAddressData(data.address);
+        }
+        setAddressLoaded(true);
+      })
+      .catch(() => setAddressLoaded(true));
   }, []);
 
-  const handleApplyCoupon = async () => {
-    if (!coupon.trim()) return;
-    try {
-      const res = await fetch(`/api/coupons/validate?code=${coupon.trim().toUpperCase()}&total=${total}`);
-      const data = await res.json();
-      if (data.success) {
-        setDiscount(data.discount);
-        setCouponApplied(true);
-        toast.success("Coupon applied!", `You save ${formatPrice(data.discount)}`);
-      } else {
-        toast.error("Invalid coupon", data.message);
-      }
-    } catch {
-      toast.error("Error", "Could not validate coupon");
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
     setLoading(true);
+
+    if (total < 2000) {
+      toast.error("Minimum Order", "Order value must be at least ₹2,000 to checkout.");
+      setLoading(false);
+      return;
+    }
 
     const fd = new FormData(e.currentTarget);
     const raw = {
@@ -146,7 +146,6 @@ export default function CheckoutPage() {
           ageConsent: parsed.data?.ageConsent || raw.ageConsent,
           termsAccepted: parsed.data?.termsAccepted || raw.termsAccepted,
           notes: parsed.data?.notes || raw.notes,
-          couponCode: couponApplied ? coupon.toUpperCase() : undefined,
         }),
       });
 
@@ -218,27 +217,29 @@ export default function CheckoutPage() {
 
               {/* Delivery Address */}
               {deliveryType === "DELIVERY" && (
-              <div className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">
+              <div key={addressLoaded ? "loaded" : "loading"} className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">
                 <h2 className="font-display text-lg font-bold mb-4">📍 Delivery Address</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input name="name" label="Full Name" defaultValue={user?.name ?? ""} error={errors["address.name"]} required />
-                  <Input name="phone" label="Mobile" placeholder="9876543210" error={errors["address.phone"]} required leftAddon={<span className="text-xs">+91</span>} />
+                  <Input name="name" label="Full Name" defaultValue={addressData?.name ?? user?.name ?? ""} error={errors["address.name"]} required />
+                  <Input name="phone" label="Mobile" placeholder="9876543210" defaultValue={addressData?.phone ?? user?.phone ?? ""} error={errors["address.phone"]} required leftAddon={<span className="text-xs">+91</span>} />
                   <div className="sm:col-span-2">
-                    <Input name="street" label="Street Address" placeholder="House/Flat no., Street, Area" error={errors["address.street"]} required />
+                    <Input name="street" label="Street Address" placeholder="House/Flat no., Street, Area" defaultValue={addressData?.street ?? ""} error={errors["address.street"]} required />
                   </div>
-                  <Input name="city" label="City" error={errors["address.city"]} required />
+                  <Input name="city" label="City" defaultValue={addressData?.city ?? ""} error={errors["address.city"]} required />
                   <Select
                     name="state"
                     label="State"
                     placeholder="Select State"
+                    defaultValue={addressData?.state ?? ""}
                     options={INDIAN_STATES.map((s) => ({ value: s, label: s }))}
                     error={errors["address.state"]}
                     required
                   />
-                  <Input name="pincode" label="Pincode" placeholder="6-digit pincode" error={errors["address.pincode"]} required />
+                  <Input name="pincode" label="Pincode" placeholder="6-digit pincode" defaultValue={addressData?.pincode ?? ""} error={errors["address.pincode"]} required />
                 </div>
               </div>
               )}
+
               
               {/* Pickup Location */}
               {deliveryType === "PICKUP" && pickupLocations.length > 0 && (
@@ -311,70 +312,40 @@ export default function CheckoutPage() {
                 <hr className="border-[var(--color-border)] my-3" />
 
                 {/* Coupon */}
-                <div className="flex gap-2 mb-4">
-                  <input
-                    type="text"
-                    value={coupon}
-                    onChange={(e) => setCoupon(e.target.value)}
-                    placeholder="Coupon code"
-                    disabled={couponApplied}
-                    className="flex-1 h-9 px-3 rounded-[var(--radius-md)] text-xs bg-white border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)] disabled:opacity-50"
-                  />
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="secondary"
-                    onClick={handleApplyCoupon}
-                    disabled={couponApplied}
-                  >
-                    {couponApplied ? "Applied ✓" : "Apply"}
-                  </Button>
-                </div>
-
                 {/* Totals */}
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-[var(--color-text-muted)]">Subtotal</span>
                     <span>{formatPrice(total)}</span>
                   </div>
-                  {discount > 0 && (
-                    <div className="flex justify-between text-green-600">
-                      <span>Coupon Discount</span>
-                      <span>−{formatPrice(discount)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-[var(--color-text-muted)]">Delivery</span>
-                    <span className={delivery === 0 ? "text-green-600" : ""}>
-                      {deliveryType === "PICKUP"
-                        ? "Free (Self Pickup)"
-                        : delivery === 0
-                        ? `Free (above ${formatPrice(freeDeliveryThreshold)})`
-                        : formatPrice(delivery)}
-                    </span>
-                  </div>
-                  <hr className="border-[var(--color-border)]" />
+
                   <div className="flex justify-between text-base font-bold">
                     <span>Total (COD)</span>
                     <span className="text-[var(--color-primary)]">
-                      {formatPrice(total - discount + delivery)}
+                      {formatPrice(total)}
                     </span>
                   </div>
                 </div>
 
+
+
                 {/* Min order value warning */}
-                {deliveryType === "DELIVERY" && minOrderValue > 0 && total < minOrderValue && (
-                  <div className="mt-2 p-2.5 rounded-[var(--radius-md)] bg-red-50 border border-red-200 text-[10px] text-red-700 text-center font-medium">
-                    ⚠️ Minimum order for delivery is {formatPrice(minOrderValue)}
+                {total < 2000 && (
+                  <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-red-50 to-orange-50 border border-red-100 shadow-sm animate-pop-in">
+                    <div className="flex gap-3 items-start">
+                      <span className="text-xl">⚠️</span>
+                      <div>
+                        <p className="text-sm font-bold text-red-800">Minimum Order Required</p>
+                        <p className="text-xs mt-1 text-red-600/90 font-medium">
+                          Your order must be at least {formatPrice(2000)} to checkout. Please add {formatPrice(2000 - total)} more.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
 
-                {/* Free delivery progress */}
-                {deliveryType === "DELIVERY" && delivery > 0 && freeDeliveryThreshold > 0 && (
-                  <div className="mt-1.5 text-[10px] text-[var(--color-text-muted)] text-center">
-                    Add {formatPrice(freeDeliveryThreshold - total)} more for free delivery!
-                  </div>
-                )}
+
+
 
                 <div className="mt-4 p-2.5 rounded-[var(--radius-md)] bg-amber-50 border border-amber-200 text-[10px] text-amber-800 text-center">
                   💰 Cash on Delivery — Pay when your order arrives
@@ -383,6 +354,7 @@ export default function CheckoutPage() {
                 <Button
                   type="submit"
                   isLoading={loading}
+                  disabled={total < 2000}
                   variant="accent"
                   size="lg"
                   className="w-full mt-4"

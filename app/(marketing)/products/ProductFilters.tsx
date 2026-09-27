@@ -2,8 +2,6 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState, useCallback } from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 
 interface Props {
   categories: { id: string; name: string; slug: string }[];
@@ -14,19 +12,14 @@ interface Props {
 }
 
 const SORT_OPTIONS = [
-  { value: "newest",     label: "Newest" },
-  { value: "popular",    label: "Popular" },
-  { value: "price-asc",  label: "Price: Low → High" },
-  { value: "price-desc", label: "Price: High → Low" },
-  { value: "name",       label: "Name: A–Z" },
+  { value: "newest",     label: "Newest",           icon: "✦" },
+  { value: "popular",    label: "Popular",           icon: "🔥" },
+  { value: "price-asc",  label: "Price: Low → High", icon: "↑" },
+  { value: "price-desc", label: "Price: High → Low", icon: "↓" },
+  { value: "name",       label: "Name: A–Z",         icon: "A" },
 ];
 
-const PAGE_SIZE_OPTIONS = [
-  { value: 12,  label: "12 / page" },
-  { value: 24,  label: "24 / page" },
-  { value: 48,  label: "48 / page" },
-  { value: 96,  label: "96 / page" },
-];
+const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
 
 export default function ProductFilters({ categories, activeCategory, activeSort, searchQuery, activePageSize = 12 }: Props) {
   const router = useRouter();
@@ -37,12 +30,8 @@ export default function ProductFilters({ categories, activeCategory, activeSort,
   const updateParams = useCallback(
     (key: string, value: string | null) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-      params.delete("page"); // reset page on filter change
+      if (value) { params.set(key, value); } else { params.delete(key); }
+      params.delete("page");
       router.push(`${pathname}?${params.toString()}`);
     },
     [router, pathname, searchParams]
@@ -63,93 +52,106 @@ export default function ProductFilters({ categories, activeCategory, activeSort,
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search firecrackers..."
-            className="w-full h-10 pl-10 pr-4 rounded-[var(--radius-md)] text-sm
-              bg-white border border-[var(--color-border)]
-              text-[var(--color-text)] placeholder:text-[var(--color-text-light)]
-              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]
-              transition-all duration-150"
+            className="w-full h-11 pl-10 pr-4 rounded-2xl text-sm font-medium
+              border-2 transition-all duration-200 outline-none
+              placeholder:text-gray-400"
+            style={{
+              background: "white",
+              borderColor: "rgba(185,28,28,0.2)",
+              color: "#1A1A1A",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = "#B91C1C"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(185,28,28,0.12)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(185,28,28,0.2)"; e.currentTarget.style.boxShadow = "none"; }}
           />
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-light)]">
-            🔍
-          </span>
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base select-none">🔍</span>
         </div>
-        <Button type="submit" size="md" variant="primary">
+        <button
+          type="submit"
+          className="h-11 px-5 rounded-2xl text-sm font-black text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+          style={{ background: "linear-gradient(135deg,#B91C1C,#F97316)", boxShadow: "0 4px 14px rgba(185,28,28,0.35)" }}
+        >
           Search
-        </Button>
+        </button>
       </form>
 
-      {/* Category pills + Sort */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex flex-wrap gap-2">
+      {/* Filter bar */}
+      <div
+        className="rounded-2xl p-1.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-wrap"
+        style={{ background: "rgba(255,245,240,0.9)", border: "1.5px solid rgba(185,28,28,0.1)" }}
+      >
+        {/* Category pills */}
+        <div className="flex flex-wrap gap-1.5 p-1">
           <button
             onClick={() => updateParams("category", null)}
-            className={cn(
-              "px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer",
-              "border",
-              !activeCategory
-                ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                : "bg-white text-[var(--color-text-muted)] border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-            )}
+            className="px-3 h-7 rounded-lg text-xs font-black transition-all duration-200 cursor-pointer"
+            style={!activeCategory ? {
+              background: "linear-gradient(135deg,#B91C1C,#F97316)",
+              color: "white",
+              boxShadow: "0 2px 8px rgba(185,28,28,0.35)",
+              transform: "scale(1.05)",
+            } : { color: "#6B6B6B", background: "transparent" }}
           >
             All
           </button>
           {categories.map((cat) => (
             <button
               key={cat.slug}
-              onClick={() =>
-                updateParams("category", activeCategory === cat.slug ? null : cat.slug)
-              }
-              className={cn(
-                "px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer",
-                "border",
-                activeCategory === cat.slug
-                  ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                  : "bg-white text-[var(--color-text-muted)] border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-              )}
+              onClick={() => updateParams("category", activeCategory === cat.slug ? null : cat.slug)}
+              className="px-3 h-7 rounded-lg text-xs font-black transition-all duration-200 cursor-pointer"
+              style={activeCategory === cat.slug ? {
+                background: "linear-gradient(135deg,#B91C1C,#F97316)",
+                color: "white",
+                boxShadow: "0 2px 8px rgba(185,28,28,0.35)",
+                transform: "scale(1.05)",
+              } : { color: "#6B6B6B", background: "transparent" }}
             >
               {cat.name}
             </button>
           ))}
         </div>
 
-        {/* Sort + Per-page */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Right: per-page + sort */}
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
           {/* Per page */}
-          <div className="relative">
-            <select
-              value={activePageSize}
-              onChange={(e) => updateParams("pageSize", e.target.value === "12" ? null : e.target.value)}
-              className="h-10 pl-3 pr-8 rounded-[var(--radius-md)] text-xs font-medium
-                bg-white border border-[var(--color-border)] text-[var(--color-text)]
-                focus:outline-none focus:border-[var(--color-primary)]
-                appearance-none cursor-pointer"
-            >
-              {PAGE_SIZE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--color-text-light)] text-[10px]">▾</span>
+          <div className="flex items-center gap-0.5 p-0.5 rounded-xl" style={{ background: "rgba(185,28,28,0.07)" }}>
+            <span className="text-[10px] font-bold px-2" style={{ color: "#9B7B6B" }}>PER PAGE</span>
+            {PAGE_SIZE_OPTIONS.map((ps) => (
+              <button
+                key={ps}
+                onClick={() => updateParams("pageSize", ps === 12 ? null : String(ps))}
+                className="h-7 min-w-[32px] px-2 rounded-lg text-xs font-black transition-all duration-200 cursor-pointer"
+                style={ps === activePageSize ? {
+                  background: "linear-gradient(135deg,#B91C1C,#F97316)",
+                  color: "white",
+                  boxShadow: "0 2px 8px rgba(185,28,28,0.4)",
+                  transform: "scale(1.05)",
+                } : { color: "#6B6B6B", background: "transparent" }}
+              >
+                {ps}
+              </button>
+            ))}
           </div>
 
+          <div className="h-6 w-px" style={{ background: "rgba(185,28,28,0.15)" }} />
+
           {/* Sort */}
-          <div className="relative">
-            <select
-              value={activeSort}
-              onChange={(e) => updateParams("sort", e.target.value === "newest" ? null : e.target.value)}
-              className="h-10 pl-3 pr-8 rounded-[var(--radius-md)] text-xs font-medium
-                bg-white border border-[var(--color-border)] text-[var(--color-text)]
-                focus:outline-none focus:border-[var(--color-primary)]
-                appearance-none cursor-pointer"
-            >
-              {SORT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--color-text-light)] text-[10px]">▾</span>
+          <div className="flex items-center gap-0.5 p-0.5 rounded-xl" style={{ background: "rgba(185,28,28,0.07)" }}>
+            <span className="text-[10px] font-bold px-2" style={{ color: "#9B7B6B" }}>SORT</span>
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => updateParams("sort", opt.value === "newest" ? null : opt.value)}
+                className="px-3 h-7 rounded-lg text-[11px] font-black whitespace-nowrap transition-all duration-200 cursor-pointer"
+                style={activeSort === opt.value ? {
+                  background: "linear-gradient(135deg,#B91C1C,#F97316)",
+                  color: "white",
+                  boxShadow: "0 2px 8px rgba(185,28,28,0.35)",
+                  transform: "scale(1.05)",
+                } : { color: "#6B6B6B", background: "transparent" }}
+              >
+                {opt.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>

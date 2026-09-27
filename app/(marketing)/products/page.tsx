@@ -139,40 +139,42 @@ export default async function ProductsPage({ searchParams }: Props) {
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex flex-col items-center gap-4 mt-12">
+          <div className="flex flex-col items-center gap-4 mt-14">
             <div className="flex items-center gap-1.5 flex-wrap justify-center">
               {/* Prev */}
               <a
                 href={safePage > 1 ? pageHref(safePage - 1) : "#"}
                 aria-disabled={safePage === 1}
-                className={`h-9 px-4 flex items-center gap-1 rounded-full text-sm font-bold border transition-all duration-200 ${
-                  safePage === 1
-                    ? "opacity-40 pointer-events-none bg-white border-[var(--color-border)] text-[var(--color-text-muted)]"
-                    : "bg-white border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                }`}
+                className="h-9 px-4 flex items-center gap-1.5 rounded-full text-xs font-black border-2 transition-all duration-200"
+                style={safePage === 1 ? {
+                  opacity: 0.4, pointerEvents: "none",
+                  background: "white", borderColor: "rgba(185,28,28,0.15)", color: "#9B7B6B"
+                } : {
+                  background: "white", borderColor: "rgba(185,28,28,0.2)", color: "#B91C1C"
+                }}
               >
                 ← Prev
               </a>
 
               {pageList.map((p, i) =>
                 p === "…" ? (
-                  <span
-                    key={`e-${i}`}
-                    className="h-9 w-9 flex items-center justify-center text-[var(--color-text-muted)] text-sm select-none"
-                  >
-                    …
-                  </span>
+                  <span key={`e-${i}`} className="h-9 w-9 flex items-center justify-center text-sm select-none" style={{ color: "#9B7B6B" }}>…</span>
                 ) : (
                   <a
                     key={p}
                     href={pageHref(p)}
-                    className={`h-9 min-w-[36px] flex items-center justify-center rounded-full text-sm font-bold transition-all duration-200 ${
-                      p === safePage
-                        ? "bg-[var(--color-primary)] text-white shadow-[0_4px_12px_rgba(220,38,38,0.35)]"
-                        : "bg-white text-[var(--color-text-muted)] border border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                    }`}
+                    className="h-9 min-w-[36px] flex items-center justify-center rounded-full text-sm font-black transition-all duration-200"
+                    style={p === safePage ? {
+                      background: "linear-gradient(135deg,#B91C1C,#F97316)",
+                      color: "white",
+                      boxShadow: "0 4px 14px rgba(185,28,28,0.4)",
+                      transform: "scale(1.1)",
+                    } : {
+                      background: "white",
+                      color: "#6B6B6B",
+                      border: "2px solid rgba(185,28,28,0.15)",
+                    }}
                   >
                     {p}
                   </a>
@@ -183,25 +185,26 @@ export default async function ProductsPage({ searchParams }: Props) {
               <a
                 href={safePage < totalPages ? pageHref(safePage + 1) : "#"}
                 aria-disabled={safePage === totalPages}
-                className={`h-9 px-4 flex items-center gap-1 rounded-full text-sm font-bold border transition-all duration-200 ${
-                  safePage === totalPages
-                    ? "opacity-40 pointer-events-none bg-white border-[var(--color-border)] text-[var(--color-text-muted)]"
-                    : "bg-white border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                }`}
+                className="h-9 px-4 flex items-center gap-1.5 rounded-full text-xs font-black border-2 transition-all duration-200"
+                style={safePage === totalPages ? {
+                  opacity: 0.4, pointerEvents: "none",
+                  background: "white", borderColor: "rgba(185,28,28,0.15)", color: "#9B7B6B"
+                } : {
+                  background: "white", borderColor: "rgba(185,28,28,0.2)", color: "#B91C1C"
+                }}
               >
                 Next →
               </a>
             </div>
 
-            {/* Summary */}
-            <p className="text-xs text-[var(--color-text-muted)] font-medium">
+            <p className="text-[11px] font-semibold" style={{ color: "#9B7B6B" }}>
               Showing{" "}
-              <span className="text-[var(--color-text)] font-bold">
+              <span style={{ color: "#1A1A1A", fontWeight: 800 }}>
                 {(safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, total)}
               </span>{" "}
               of{" "}
-              <span className="text-[var(--color-text)] font-bold">{total.toLocaleString()}</span>
-              {" "}products &nbsp;·&nbsp; Page {safePage} of {totalPages}
+              <span style={{ color: "#1A1A1A", fontWeight: 800 }}>{total.toLocaleString()}</span>{" "}
+              products &nbsp;·&nbsp; Page {safePage} of {totalPages}
             </p>
           </div>
         )}

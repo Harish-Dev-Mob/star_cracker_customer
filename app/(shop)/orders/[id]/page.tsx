@@ -357,13 +357,8 @@ export default async function OrderDetailsPage({ params }: Props) {
                     <span className="font-black">−{fmt(order.discount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-500">Delivery</span>
-                  <span className={`font-bold ${deliveryFee === 0 ? "text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md" : "text-gray-900"}`}>
-                    {deliveryFee === 0 ? "Free 🎉" : fmt(deliveryFee)}
-                  </span>
-                </div>
-                
+
+
                 {/* Dashed divider */}
                 <div className="relative py-3">
                   <div className="absolute inset-0 flex items-center">

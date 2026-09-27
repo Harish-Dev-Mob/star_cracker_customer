@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Badge, getStockVariant } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCart, type CartProduct } from "@/hooks/useCart";
+import { useWishlist, type WishlistProduct } from "@/hooks/useWishlist";
 import { toast } from "@/components/ui/Toast";
 import { useTranslation } from "@/store/useI18n";
 
@@ -41,6 +43,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const addItem = useCart((s) => s.addItem);
   const updateQuantity = useCart((s) => s.updateQuantity);
   const items = useCart((s) => s.items);
+  const toggleWishlist = useWishlist((s) => s.toggleItem);
+  const isInWishlist = useWishlist((s) => s.isInWishlist);
+  
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
+  
+  const wishlisted = isMounted && isInWishlist(product.id);
   const { t } = useTranslation();
   
   const parsedImages: string[] = (() => {
@@ -55,7 +64,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const outOfStock = product.stock === 0;
 
   const cartItem = items.find((i) => i.product.id === product.id);
-  const quantityInCart = cartItem?.quantity || 0;
+  const quantityInCart = isMounted ? (cartItem?.quantity || 0) : 0;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -72,6 +81,26 @@ export function ProductCard({ product, className }: ProductCardProps) {
     };
     addItem(cartProd);
     toast.success("Added to cart", product.name);
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const wp: WishlistProduct = {
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      discountPrice: product.discountPrice,
+      images: parsedImages,
+      stock: product.stock,
+      category: product.category,
+    };
+    toggleWishlist(wp);
+    toast.success(
+      wishlisted ? "Removed from wishlist" : "Added to wishlist",
+      product.name
+    );
   };
 
   const handleUpdateQty = (e: React.MouseEvent, newQty: number) => {
@@ -118,7 +147,32 @@ export function ProductCard({ product, className }: ProductCardProps) {
           {product.isFeatured && <Badge variant="featured" className="shadow-lg font-bold">⭐ Popular</Badge>}
         </div>
         
-        <div className="absolute top-3 right-3 z-20">
+        <div className="absolute top-3 right-3 z-20 flex flex-col items-end gap-2">
+          {/* Wishlist heart */}
+          <button
+            type="button"
+            aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+            onClick={handleToggleWishlist}
+            className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 ${
+              wishlisted
+                ? "bg-red-500 text-white"
+                : "bg-white/80 text-gray-400 hover:text-red-500 hover:bg-white"
+            }`}
+          >
+            <svg
+              className="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill={wishlisted ? "currentColor" : "none"}
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
           <Badge variant={getStockVariant(product.stock)} className="shadow-lg font-bold">
             {outOfStock ? t.product.outOfStock : product.stock <= 10 ? `Only ${product.stock} left` : "In Stock"}
           </Badge>

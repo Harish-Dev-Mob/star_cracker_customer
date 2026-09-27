@@ -14,22 +14,26 @@ interface Props {
 
 export default async function OrderConfirmationPage({ params }: Props) {
   const { id } = await params;
-  
+
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
       orderItems: { include: { product: true } },
       address: true,
+      pickupLocation: true,
+      user: true,
     }
   });
 
   if (!order) notFound();
 
   // Pre-fill review form from order address
-  const reviewName = order.address?.name ?? "";
+  const reviewName = order.address?.name ?? order.user.name ?? "";
   const reviewLocation = order.address
     ? `${order.address.city}, ${order.address.state}`
-    : "";
+    : order.pickupLocation
+      ? `${order.pickupLocation.city}, ${order.pickupLocation.state}`
+      : "";
 
   return (
     <div className="py-12 lg:py-20 flex justify-center">
@@ -48,50 +52,63 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
         <div className="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-[var(--radius-xl)] p-6 sm:p-8 text-left mb-8 shadow-[var(--shadow-sm)]">
           <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6 pb-6 border-b border-[var(--color-border)]">
-             <div>
-                <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-1">Order Number</p>
-                <p className="font-mono text-sm font-bold text-[var(--color-text)]">{order.id}</p>
-             </div>
-             <div>
-                <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-1">Total Amount</p>
-                <p className="text-lg font-bold text-[var(--color-primary)]">{formatPrice(order.total)} <span className="text-sm text-[var(--color-text-muted)] font-normal">(COD)</span></p>
-             </div>
+            <div>
+              <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-1">Order Number</p>
+              <p className="font-mono text-sm font-bold text-[var(--color-text)]">{order.id}</p>
+            </div>
+            <div>
+              <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-1">Total Amount</p>
+              <p className="text-lg font-bold text-[var(--color-primary)]">{formatPrice(order.total)} <span className="text-sm text-[var(--color-text-muted)] font-normal">(COD)</span></p>
+            </div>
           </div>
 
           <div className="mb-6">
             <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-3">Items Ordered</p>
             <div className="space-y-3">
-               {order.orderItems.map((item: any) => (
-                 <div key={item.id} className="flex justify-between text-sm">
-                   <span className="text-[var(--color-text)]">{item.product.name} <span className="text-[var(--color-text-muted)]">× {item.quantity}</span></span>
-                   <span className="font-medium">{formatPrice(item.priceAtOrder * item.quantity)}</span>
-                 </div>
-               ))}
+              {order.orderItems.map((item: any) => (
+                <div key={item.id} className="flex justify-between text-sm">
+                  <span className="text-[var(--color-text)]">{item.product.name} <span className="text-[var(--color-text-muted)]">× {item.quantity}</span></span>
+                  <span className="font-medium">{formatPrice(item.priceAtOrder * item.quantity)}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div>
-             <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-2">Delivery Address</p>
-             <div className="text-sm text-[var(--color-text)] bg-[var(--color-bg-muted)] p-4 rounded-[var(--radius-md)]">
-                <p className="font-bold mb-1">{order.address?.name}</p>
-                <p>{order.address?.street}</p>
-                <p>{order.address?.city}, {order.address?.state} {order.address?.pincode}</p>
-                <p className="mt-2 text-[var(--color-text-muted)]">Phone: {order.address?.phone}</p>
-             </div>
-          </div>
+          {order.deliveryType === "PICKUP" && order.pickupLocation ? (
+            <div>
+              <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-2">Pickup Location</p>
+              <div className="text-sm text-[var(--color-text)] bg-[var(--color-bg-muted)] p-4 rounded-[var(--radius-md)] border border-orange-200 shadow-sm">
+                <p className="font-bold text-orange-800 mb-1">Self Pickup at {order.pickupLocation.name}</p>
+                <p>{order.pickupLocation.address}</p>
+                <p>{order.pickupLocation.city}, {order.pickupLocation.state} {order.pickupLocation.pincode}</p>
+                {order.pickupLocation.phone && <p className="mt-2 text-[var(--color-text-muted)] font-medium">📞 Phone: {order.pickupLocation.phone}</p>}
+                <p className="mt-3 text-xs text-orange-600 font-bold bg-orange-100 p-2 rounded-md">Please bring your order confirmation when you arrive.</p>
+              </div>
+            </div>
+          ) : order.address ? (
+            <div>
+              <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-2">Delivery Address</p>
+              <div className="text-sm text-[var(--color-text)] bg-[var(--color-bg-muted)] p-4 rounded-[var(--radius-md)] border border-[var(--color-border)]">
+                <p className="font-bold mb-1 text-gray-900">{order.address.name}</p>
+                <p>{order.address.street}</p>
+                <p>{order.address.city}, {order.address.state} {order.address.pincode}</p>
+                <p className="mt-2 text-[var(--color-text-muted)]">📞 Phone: {order.address.phone}</p>
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-           <Link href={`/orders/${order.id}`}>
-             <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Track Order
-             </Button>
-           </Link>
-           <Link href="/products">
-             <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                Continue Shopping
-             </Button>
-           </Link>
+          <Link href={`/orders/${order.id}`}>
+            <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+              Track Order
+            </Button>
+          </Link>
+          <Link href="/products">
+            <Button variant="primary" size="lg" className="w-full sm:w-auto">
+              Continue Shopping
+            </Button>
+          </Link>
         </div>
 
         {/* ── Review Prompt ─────────────────────────────────────────────── */}

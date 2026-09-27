@@ -20,6 +20,8 @@ enum Role {
 
 enum OrderStatus {
   PLACED
+  PAYMENT_PENDING
+  PAYMENT_COMPLETED
   CONFIRMED
   PACKED
   SHIPPED
@@ -119,6 +121,7 @@ model Order {
   pickupLocationId String?
   status           OrderStatus @default(PLACED)
   paymentMode      PaymentMode @default(COD)
+  paymentStatus    String      @default("PENDING")
   deliveryType     String      @default("DELIVERY") // "DELIVERY" | "PICKUP"
   subtotal         Float
   discount         Float       @default(0)

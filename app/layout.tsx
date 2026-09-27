@@ -3,7 +3,6 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { ToastProvider } from "@/components/ui/Toast";
-import AgeGate from "@/components/ui/AgeGate";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://star-cracker-customer.onrender.com",
+    url: "http://localhost:3000",
     siteName: "StarCracker",
   },
 };
@@ -43,10 +42,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+      <body suppressHydrationWarning className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
         <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
           <SessionProvider>
-            <AgeGate />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

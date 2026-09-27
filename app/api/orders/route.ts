@@ -141,13 +141,38 @@ export async function POST(request: Request) {
       // Save Address (or find existing for user)
       let savedAddressId = undefined;
       if (userId && isDelivery && address) {
-        const newAddress = await tx.address.create({
-           data: {
-             ...address,
-             userId: userId,
-           }
+        // Find if the user already has ANY address
+        const existingAddress = await tx.address.findFirst({
+          where: {
+            userId: userId,
+          }
         });
-        savedAddressId = newAddress.id;
+
+        if (existingAddress) {
+          // Update the user's ONLY address
+          const updatedAddress = await tx.address.update({
+            where: { id: existingAddress.id },
+            data: {
+              name: address.name,
+              phone: address.phone,
+              street: address.street,
+              city: address.city,
+              state: address.state,
+              pincode: address.pincode,
+              country: address.country || "India"
+            }
+          });
+          savedAddressId = updatedAddress.id;
+        } else {
+          // Create new address since they don't have one
+          const newAddress = await tx.address.create({
+             data: {
+               ...address,
+               userId: userId,
+             }
+          });
+          savedAddressId = newAddress.id;
+        }
       }
 
       // Create Order

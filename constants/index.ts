@@ -1,14 +1,14 @@
 // ─── Site Metadata ────────────────────────────────────────────────────────────
 export const SITE_NAME = "Star Cracker";
 export const SITE_TAGLINE = "Light Up Every Celebration";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://star-cracker-customer.onrender.com";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 export const SITE_DESCRIPTION =
   "Premium quality firecrackers and sparklers for every festival and celebration. Explore our wide collection of safe and vibrant fireworks.";
 
 // ─── Navigation Links ─────────────────────────────────────────────────────────
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
+  { label: "Categories", href: "/categories" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

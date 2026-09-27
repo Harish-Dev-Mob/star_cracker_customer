@@ -185,6 +185,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   pickupLocationId: 'pickupLocationId',
   status: 'status',
   paymentMode: 'paymentMode',
+  paymentStatus: 'paymentStatus',
   deliveryType: 'deliveryType',
   subtotal: 'subtotal',
   discount: 'discount',
@@ -312,6 +313,8 @@ exports.Role = exports.$Enums.Role = {
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {
   PLACED: 'PLACED',
+  PAYMENT_PENDING: 'PAYMENT_PENDING',
+  PAYMENT_COMPLETED: 'PAYMENT_COMPLETED',
   CONFIRMED: 'CONFIRMED',
   PACKED: 'PACKED',
   SHIPPED: 'SHIPPED',

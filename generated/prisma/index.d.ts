@@ -98,6 +98,8 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const OrderStatus: {
   PLACED: 'PLACED',
+  PAYMENT_PENDING: 'PAYMENT_PENDING',
+  PAYMENT_COMPLETED: 'PAYMENT_COMPLETED',
   CONFIRMED: 'CONFIRMED',
   PACKED: 'PACKED',
   SHIPPED: 'SHIPPED',
@@ -7244,6 +7246,7 @@ export namespace Prisma {
     pickupLocationId: string | null
     status: $Enums.OrderStatus | null
     paymentMode: $Enums.PaymentMode | null
+    paymentStatus: string | null
     deliveryType: string | null
     subtotal: number | null
     discount: number | null
@@ -7265,6 +7268,7 @@ export namespace Prisma {
     pickupLocationId: string | null
     status: $Enums.OrderStatus | null
     paymentMode: $Enums.PaymentMode | null
+    paymentStatus: string | null
     deliveryType: string | null
     subtotal: number | null
     discount: number | null
@@ -7286,6 +7290,7 @@ export namespace Prisma {
     pickupLocationId: number
     status: number
     paymentMode: number
+    paymentStatus: number
     deliveryType: number
     subtotal: number
     discount: number
@@ -7321,6 +7326,7 @@ export namespace Prisma {
     pickupLocationId?: true
     status?: true
     paymentMode?: true
+    paymentStatus?: true
     deliveryType?: true
     subtotal?: true
     discount?: true
@@ -7342,6 +7348,7 @@ export namespace Prisma {
     pickupLocationId?: true
     status?: true
     paymentMode?: true
+    paymentStatus?: true
     deliveryType?: true
     subtotal?: true
     discount?: true
@@ -7363,6 +7370,7 @@ export namespace Prisma {
     pickupLocationId?: true
     status?: true
     paymentMode?: true
+    paymentStatus?: true
     deliveryType?: true
     subtotal?: true
     discount?: true
@@ -7471,6 +7479,7 @@ export namespace Prisma {
     pickupLocationId: string | null
     status: $Enums.OrderStatus
     paymentMode: $Enums.PaymentMode
+    paymentStatus: string
     deliveryType: string
     subtotal: number
     discount: number
@@ -7511,6 +7520,7 @@ export namespace Prisma {
     pickupLocationId?: boolean
     status?: boolean
     paymentMode?: boolean
+    paymentStatus?: boolean
     deliveryType?: boolean
     subtotal?: boolean
     discount?: boolean
@@ -7537,6 +7547,7 @@ export namespace Prisma {
     pickupLocationId?: boolean
     status?: boolean
     paymentMode?: boolean
+    paymentStatus?: boolean
     deliveryType?: boolean
     subtotal?: boolean
     discount?: boolean
@@ -7561,6 +7572,7 @@ export namespace Prisma {
     pickupLocationId?: boolean
     status?: boolean
     paymentMode?: boolean
+    paymentStatus?: boolean
     deliveryType?: boolean
     subtotal?: boolean
     discount?: boolean
@@ -7585,6 +7597,7 @@ export namespace Prisma {
     pickupLocationId?: boolean
     status?: boolean
     paymentMode?: boolean
+    paymentStatus?: boolean
     deliveryType?: boolean
     subtotal?: boolean
     discount?: boolean
@@ -7599,7 +7612,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "addressId" | "pickupLocationId" | "status" | "paymentMode" | "deliveryType" | "subtotal" | "discount" | "total" | "couponCode" | "notes" | "ageConsent" | "termsAcceptedAt" | "returnEligible" | "invoiceRef" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "addressId" | "pickupLocationId" | "status" | "paymentMode" | "paymentStatus" | "deliveryType" | "subtotal" | "discount" | "total" | "couponCode" | "notes" | "ageConsent" | "termsAcceptedAt" | "returnEligible" | "invoiceRef" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     address?: boolean | Order$addressArgs<ExtArgs>
@@ -7633,6 +7646,7 @@ export namespace Prisma {
       pickupLocationId: string | null
       status: $Enums.OrderStatus
       paymentMode: $Enums.PaymentMode
+      paymentStatus: string
       deliveryType: string
       subtotal: number
       discount: number
@@ -8078,6 +8092,7 @@ export namespace Prisma {
     readonly pickupLocationId: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
     readonly paymentMode: FieldRef<"Order", 'PaymentMode'>
+    readonly paymentStatus: FieldRef<"Order", 'String'>
     readonly deliveryType: FieldRef<"Order", 'String'>
     readonly subtotal: FieldRef<"Order", 'Float'>
     readonly discount: FieldRef<"Order", 'Float'>
@@ -18517,6 +18532,7 @@ export namespace Prisma {
     pickupLocationId: 'pickupLocationId',
     status: 'status',
     paymentMode: 'paymentMode',
+    paymentStatus: 'paymentStatus',
     deliveryType: 'deliveryType',
     subtotal: 'subtotal',
     discount: 'discount',
@@ -19136,6 +19152,7 @@ export namespace Prisma {
     pickupLocationId?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFilter<"Order"> | $Enums.PaymentMode
+    paymentStatus?: StringFilter<"Order"> | string
     deliveryType?: StringFilter<"Order"> | string
     subtotal?: FloatFilter<"Order"> | number
     discount?: FloatFilter<"Order"> | number
@@ -19161,6 +19178,7 @@ export namespace Prisma {
     pickupLocationId?: SortOrderInput | SortOrder
     status?: SortOrder
     paymentMode?: SortOrder
+    paymentStatus?: SortOrder
     deliveryType?: SortOrder
     subtotal?: SortOrder
     discount?: SortOrder
@@ -19189,6 +19207,7 @@ export namespace Prisma {
     pickupLocationId?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFilter<"Order"> | $Enums.PaymentMode
+    paymentStatus?: StringFilter<"Order"> | string
     deliveryType?: StringFilter<"Order"> | string
     subtotal?: FloatFilter<"Order"> | number
     discount?: FloatFilter<"Order"> | number
@@ -19214,6 +19233,7 @@ export namespace Prisma {
     pickupLocationId?: SortOrderInput | SortOrder
     status?: SortOrder
     paymentMode?: SortOrder
+    paymentStatus?: SortOrder
     deliveryType?: SortOrder
     subtotal?: SortOrder
     discount?: SortOrder
@@ -19243,6 +19263,7 @@ export namespace Prisma {
     pickupLocationId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeWithAggregatesFilter<"Order"> | $Enums.PaymentMode
+    paymentStatus?: StringWithAggregatesFilter<"Order"> | string
     deliveryType?: StringWithAggregatesFilter<"Order"> | string
     subtotal?: FloatWithAggregatesFilter<"Order"> | number
     discount?: FloatWithAggregatesFilter<"Order"> | number
@@ -20335,6 +20356,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -20360,6 +20382,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -20379,6 +20402,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -20404,6 +20428,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -20426,6 +20451,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -20444,6 +20470,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -20465,6 +20492,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -21674,6 +21702,7 @@ export namespace Prisma {
     pickupLocationId?: SortOrder
     status?: SortOrder
     paymentMode?: SortOrder
+    paymentStatus?: SortOrder
     deliveryType?: SortOrder
     subtotal?: SortOrder
     discount?: SortOrder
@@ -21701,6 +21730,7 @@ export namespace Prisma {
     pickupLocationId?: SortOrder
     status?: SortOrder
     paymentMode?: SortOrder
+    paymentStatus?: SortOrder
     deliveryType?: SortOrder
     subtotal?: SortOrder
     discount?: SortOrder
@@ -21722,6 +21752,7 @@ export namespace Prisma {
     pickupLocationId?: SortOrder
     status?: SortOrder
     paymentMode?: SortOrder
+    paymentStatus?: SortOrder
     deliveryType?: SortOrder
     subtotal?: SortOrder
     discount?: SortOrder
@@ -23110,6 +23141,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23133,6 +23165,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23216,6 +23249,7 @@ export namespace Prisma {
     pickupLocationId?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFilter<"Order"> | $Enums.PaymentMode
+    paymentStatus?: StringFilter<"Order"> | string
     deliveryType?: StringFilter<"Order"> | string
     subtotal?: FloatFilter<"Order"> | number
     discount?: FloatFilter<"Order"> | number
@@ -23265,6 +23299,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23288,6 +23323,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23876,6 +23912,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23900,6 +23937,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -23987,6 +24025,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24011,6 +24050,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24088,6 +24128,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -24111,6 +24152,7 @@ export namespace Prisma {
     addressId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -24391,6 +24433,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -24450,6 +24493,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24473,6 +24517,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24494,6 +24539,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24514,6 +24560,7 @@ export namespace Prisma {
     pickupLocationId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -24532,6 +24579,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24555,6 +24603,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24576,6 +24625,7 @@ export namespace Prisma {
     pickupLocationId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24768,6 +24818,7 @@ export namespace Prisma {
     addressId?: string | null
     status?: $Enums.OrderStatus
     paymentMode?: $Enums.PaymentMode
+    paymentStatus?: string
     deliveryType?: string
     subtotal: number
     discount?: number
@@ -24786,6 +24837,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24809,6 +24861,7 @@ export namespace Prisma {
     addressId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
@@ -24830,6 +24883,7 @@ export namespace Prisma {
     addressId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    paymentStatus?: StringFieldUpdateOperationsInput | string
     deliveryType?: StringFieldUpdateOperationsInput | string
     subtotal?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number

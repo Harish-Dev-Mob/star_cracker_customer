@@ -12,9 +12,7 @@ function formatPrice(n: number) {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0 }).format(n);
 }
 
-const MIN_ORDER_VALUE = 299;
-const FREE_DELIVERY_THRESHOLD = 999;
-const DELIVERY_FEE = 49;
+const MIN_ORDER_VALUE = 2000;
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, clearCart, subtotal } = useCart();
@@ -22,9 +20,6 @@ export default function CartPage() {
   const total = subtotal();
   const belowMinimum = items.length > 0 && total < MIN_ORDER_VALUE;
 
-  // Progress bar calculations for Free Delivery
-  const amountToFreeDelivery = Math.max(0, FREE_DELIVERY_THRESHOLD - total);
-  const progressPercentage = Math.min(100, (total / FREE_DELIVERY_THRESHOLD) * 100);
 
   if (items.length === 0) {
     return (
@@ -190,51 +185,17 @@ export default function CartPage() {
                 <span>🧾</span> Order Summary
               </h2>
 
-              {/* Free Delivery Progress Bar */}
-              <div className="mb-6 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700/50 relative overflow-hidden group">
-                <div className="flex justify-between text-xs font-bold mb-2 uppercase tracking-wide">
-                  <span className="text-gray-500 dark:text-gray-400">Delivery</span>
-                  <span className={cn(amountToFreeDelivery === 0 ? "text-green-600 font-black" : "text-gray-500")}>
-                    {amountToFreeDelivery === 0 ? "Free!" : `${formatPrice(amountToFreeDelivery)} to Free`}
-                  </span>
-                </div>
-                <div className="h-2.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
-                  <div
-                    className={cn(
-                      "h-full rounded-full transition-all duration-1000 ease-out relative",
-                      amountToFreeDelivery === 0
-                        ? "bg-gradient-to-r from-green-400 to-emerald-500"
-                        : "bg-gradient-to-r from-orange-400 to-[var(--color-primary)]"
-                    )}
-                    style={{ width: `${progressPercentage}%` }}
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%,transparent_100%)] bg-[length:1rem_1rem] animate-[shimmer_1s_infinite] opacity-50" />
-                  </div>
-                </div>
-                {amountToFreeDelivery === 0 && (
-                  <p className="text-xs font-bold text-green-600 mt-2 flex items-center gap-1 animate-pop-in">
-                    <span className="animate-bounce">🎉</span> You unlocked Free Delivery!
-                  </p>
-                )}
-              </div>
-
               <div className="space-y-4 text-sm mb-6">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-500 dark:text-gray-400 font-medium">Subtotal</span>
                   <span className="font-bold text-gray-900 dark:text-white">{formatPrice(total)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-500 dark:text-gray-400 font-medium">Delivery Fee</span>
-                  <span className={cn("font-bold", amountToFreeDelivery === 0 ? "text-green-500" : "text-gray-900 dark:text-white")}>
-                    {amountToFreeDelivery === 0 ? "FREE" : formatPrice(DELIVERY_FEE)}
-                  </span>
                 </div>
 
                 <div className="pt-4 border-t border-dashed border-gray-200 dark:border-gray-700">
                   <div className="flex justify-between items-end">
                     <span className="text-base font-bold text-gray-900 dark:text-white">Total Amount</span>
                     <span className="text-2xl font-black text-[var(--color-primary)]">
-                      {formatPrice(total + (amountToFreeDelivery === 0 ? 0 : DELIVERY_FEE))}
+                      {formatPrice(total)}
                     </span>
                   </div>
                   <p className="text-xs text-right text-gray-400 mt-1 font-medium">Inclusive of all taxes</p>

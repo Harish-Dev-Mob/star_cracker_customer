@@ -19,6 +19,16 @@ export default async function Footer() {
       <div className="absolute top-[20%] right-[20%] w-2 h-2 rounded-full bg-white/40 blur-[2px] animate-sparkle" />
       <div className="absolute bottom-[30%] left-[30%] w-3 h-3 rounded-full bg-[var(--color-accent)]/40 blur-[2px] animate-sparkle" style={{ animationDelay: '1s' }} />
 
+      {/* Delivery Note Banner */}
+      <div className="relative z-20 bg-gradient-to-r from-[var(--color-primary)] via-orange-500 to-amber-500 py-3 px-4 border-b border-[var(--color-primary-dark)]/50">
+        <div className="container-site flex items-center justify-center gap-3 text-white">
+          <span className="text-xl animate-bounce">📍</span>
+          <p className="text-sm sm:text-base font-semibold drop-shadow-sm">
+            Delivery Notice: Collect your order from the nearest delivery hub.
+          </p>
+        </div>
+      </div>
+
       {/* ── Main Footer ─────────────────────────────────────────── */}
       <div className="container-site py-12 lg:py-16 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">

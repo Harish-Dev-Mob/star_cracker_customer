@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useCart } from "@/hooks/useCart";
+import { useWishlist } from "@/hooks/useWishlist";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
@@ -21,11 +22,17 @@ export default function Header() {
   const { t } = useTranslation();
   const cartItems = useCart((s) => s.items);
   const cartCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+  const wishlistCount = useWishlist((s) => s.count());
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Top promo bar - fetched from SiteConfig
   const [topBannerEnabled, setTopBannerEnabled] = useState(true);
@@ -120,7 +127,8 @@ export default function Header() {
                   )}
                   <span className="relative z-10">
                     {link.label === "Products" ? t.header.shop :
-                      link.label === "About" ? t.header.about : link.label}
+                      link.label === "About" ? t.header.about :
+                      link.label === "Categories" ? "Categories" : link.label}
                   </span>
                 </Link>
               );
@@ -134,11 +142,36 @@ export default function Header() {
               <LanguageSwitcher />
             </div> */}
 
+            {/* Wishlist */}
+            <Link
+              href="/wishlist"
+              className="relative flex items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-red-300 dark:hover:border-red-500 transition-all duration-200 group"
+              aria-label={`Wishlist with ${isMounted ? wishlistCount : 0} items`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5 text-gray-700 dark:text-gray-300 group-hover:text-red-500 transition-colors duration-300"
+              >
+                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              {isMounted && wishlistCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 h-6 w-6 flex items-center justify-center text-[11px] font-black text-white bg-red-500 rounded-full shadow-sm border-2 border-white transform transition-transform group-hover:scale-110">
+                  {wishlistCount > 99 ? "99+" : wishlistCount}
+                </span>
+              )}
+            </Link>
+
             {/* Cart */}
             <Link
               href="/cart"
               className="relative flex items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-orange-300 dark:hover:border-orange-500 transition-all duration-200 group"
-              aria-label={`Cart with ${cartCount} items`}
+              aria-label={`Cart with ${isMounted ? cartCount : 0} items`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +187,7 @@ export default function Header() {
                 <circle cx="19" cy="21" r="1" />
                 <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
               </svg>
-              {cartCount > 0 && (
+              {isMounted && cartCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 h-6 w-6 flex items-center justify-center text-[11px] font-black text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full shadow-sm border-2 border-white transform transition-transform group-hover:animate-firework-burst">
                   {cartCount > 99 ? "99+" : cartCount}
                 </span>
@@ -320,7 +353,8 @@ export default function Header() {
                   )}
                 >
                   {link.label === "Products" ? t.header.shop :
-                    link.label === "About" ? t.header.about : link.label}
+                    link.label === "About" ? t.header.about :
+                    link.label === "Categories" ? "Categories" : link.label}
                 </Link>
               );
             })}
