@@ -113,7 +113,6 @@ export default function CheckoutPage() {
         isDefault: false,
       },
       ageConsent: fd.get("ageConsent") === "on",
-      termsAccepted: fd.get("termsAccepted") === "on",
       notes: (fd.get("notes") as string) || undefined,
       pickupLocationId: deliveryType === "PICKUP" ? selectedPickupLocation : undefined,
     };
@@ -144,7 +143,6 @@ export default function CheckoutPage() {
           pickupLocationId: deliveryType === "PICKUP" ? selectedPickupLocation : undefined,
           deliveryType,
           ageConsent: parsed.data?.ageConsent || raw.ageConsent,
-          termsAccepted: parsed.data?.termsAccepted || raw.termsAccepted,
           notes: parsed.data?.notes || raw.notes,
         }),
       });
@@ -181,7 +179,7 @@ export default function CheckoutPage() {
         <span className="text-5xl block mb-4">🚫</span>
         <h1 className="font-display text-2xl font-bold mb-3 text-red-600">Orders are Closed</h1>
         <p className="text-[var(--color-text-muted)] mb-6">We are not accepting new orders at this time. Please check back later.</p>
-        <Link href="/products"><Button variant="primary">Continue Shopping</Button></Link>
+        <Link href="/"><Button variant="primary">Continue Shopping</Button></Link>
       </div>
     );
   }
@@ -281,12 +279,7 @@ export default function CheckoutPage() {
                   error={errors.ageConsent}
                   required
                 />
-                <Checkbox
-                  name="termsAccepted"
-                  label={<span>I accept the <Link href="/about" className="text-[var(--color-primary)] underline">Terms of Service</Link> and <Link href="/about" className="text-[var(--color-primary)] underline">Safety Disclaimer</Link>.</span>}
-                  error={errors.termsAccepted}
-                  required
-                />
+
               </div>
             </div>
 

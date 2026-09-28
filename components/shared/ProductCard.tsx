@@ -110,8 +110,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   };
 
   return (
-    <Link
-      href={`/products/${product.slug}`}
+    <div
       className={cn(
         "group relative flex flex-col rounded-3xl overflow-hidden",
         "bg-white dark:bg-gray-900 border-2 border-transparent hover:border-orange-100 dark:hover:border-orange-900/50",
@@ -178,40 +177,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </Badge>
         </div>
         
-        {/* Quick Add Button (Visible on Hover) */}
-        <div className="absolute bottom-4 left-0 right-0 px-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-20 hidden md:block">
-          {quantityInCart > 0 ? (
-            <div className="flex items-center justify-between bg-white text-gray-900 shadow-xl rounded-xl h-11 px-2 border border-orange-100" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 hover:text-orange-700 border-none shadow-sm"
-                onClick={(e) => handleUpdateQty(e, quantityInCart - 1)}
-              >
-                -
-              </Button>
-              <span className="font-bold w-8 text-center text-lg">{quantityInCart}</span>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 hover:text-orange-700 border-none shadow-sm"
-                onClick={(e) => handleUpdateQty(e, quantityInCart + 1)}
-                disabled={quantityInCart >= product.stock}
-              >
-                +
-              </Button>
-            </div>
-          ) : (
-            <Button
-              onClick={handleAddToCart}
-              disabled={outOfStock}
-              variant="primary"
-              className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-orange-50 dark:hover:bg-gray-700 hover:text-orange-600 shadow-xl border-none font-bold rounded-xl h-11"
-            >
-              {outOfStock ? t.product.outOfStock : t.product.quickAdd}
-            </Button>
-          )}
-        </div>
       </div>
 
       {/* Content */}
@@ -243,8 +208,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
         </div>
 
-        {/* Mobile Add to Cart (Always visible on mobile) */}
-        <div className="mt-4 md:hidden">
+        {/* Add to Cart (Always visible) */}
+        <div className="mt-4">
           {quantityInCart > 0 ? (
             <div className="flex items-center justify-between bg-orange-50/50 shadow-inner rounded-xl h-11 px-2 border border-orange-200" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
               <Button
@@ -278,6 +243,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ import { useWishlist } from "@/hooks/useWishlist";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
-import { NAV_LINKS, SITE_NAME } from "@/constants";
+import { NAV_LINKS, SITE_NAME, CONTACT_INFO } from "@/constants";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useTranslation } from "@/store/useI18n";
@@ -70,17 +70,32 @@ export default function Header() {
 
   return (
     <>
-      {/* ── Top Promo Bar ───────────────────────────────────────────── */}
-      {topBannerEnabled && (
-        <div className="bg-gradient-to-r from-orange-500 via-[var(--color-primary)] to-orange-500 text-white text-xs font-bold tracking-widest py-2.5 text-center shadow-sm relative z-50 overflow-hidden">
-          <div className="absolute inset-0 bg-white/10 bg-[length:20px_20px] bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%,transparent_100%)] animate-[shimmer_2s_infinite]"></div>
-          <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
-            <span className="animate-pulse text-sm">✨</span>
-            {topBannerText}
-            <span className="animate-pulse text-sm">✨</span>
-          </span>
+      {/* ── Top Contact & Promo Bar ─────────────────────────────────── */}
+      <div className="bg-gradient-to-r from-[#B91C1C] to-[#991B1B] text-white text-[11px] font-medium tracking-wide py-2 relative z-50 shadow-sm border-b border-red-950/20">
+        <div className="container-site flex flex-col sm:flex-row items-center justify-between gap-2">
+          {/* Contact Info */}
+          <div className="flex items-center gap-4 sm:gap-5 opacity-90">
+            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-1.5 hover:text-orange-200 transition-colors">
+              <span>📞</span> {CONTACT_INFO.phone}
+            </a>
+            <a href={`mailto:${CONTACT_INFO.email}`} className="flex items-center gap-1.5 hover:text-orange-200 transition-colors hidden sm:flex">
+              <span>✉️</span> {CONTACT_INFO.email}
+            </a>
+            <div className="hidden md:flex items-center gap-1.5">
+              <span>📍</span> {CONTACT_INFO.address}
+            </div>
+          </div>
+
+          {/* Promo Text */}
+          {topBannerEnabled && (
+            <div className="flex items-center gap-2 font-bold uppercase tracking-widest text-orange-200">
+              <span className="animate-pulse text-sm">✨</span>
+              {topBannerText}
+              <span className="animate-pulse text-sm">✨</span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       <header
         className={cn(
@@ -104,35 +119,7 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* ── Desktop Nav ─────────────────────────────────────────── */}
-          <nav className="hidden lg:flex items-center gap-1.5 relative z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md px-2 py-1.5 rounded-full border border-gray-200/50 dark:border-gray-800 shadow-sm">
-            {NAV_LINKS.map((link) => {
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "relative px-5 py-2 rounded-full text-[13px] font-bold tracking-wide transition-all duration-300 overflow-hidden group uppercase",
-                    active
-                      ? "text-white shadow-md"
-                      : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                  )}
-                >
-                  {active && (
-                    <span className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary)] to-orange-400 rounded-full -z-10 opacity-90" />
-                  )}
-                  {!active && (
-                    <span className="absolute inset-0 bg-gray-100 dark:bg-gray-800 rounded-full -z-10 scale-0 group-hover:scale-100 transition-transform duration-200 origin-center" />
-                  )}
-                  <span className="relative z-10">
-                    {link.label === "Categories" ? "Categories" :
-                      link.label === "About" ? t.header.about : link.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </nav>
+
 
           {/* ── Right Actions ───────────────────────────────────────── */}
           <div className="flex items-center gap-3 relative z-50">
@@ -351,8 +338,7 @@ export default function Header() {
                       : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:translate-x-1"
                   )}
                 >
-                  {link.label === "Categories" ? "Categories" :
-                    link.label === "About" ? t.header.about : link.label}
+                  {link.label}
                 </Link>
               );
             })}

@@ -104,7 +104,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
               Track Order
             </Button>
           </Link>
-          <Link href="/products">
+          <Link href="/">
             <Button variant="primary" size="lg" className="w-full sm:w-auto">
               Continue Shopping
             </Button>

@@ -88,7 +88,7 @@ function LoginForm() {
             <Input
               name="identifier"
               label="Email or Phone"
-              placeholder="ravi@example.com or 9876543210"
+              placeholder="Enter your email or phone number"
               error={errors.identifier}
               required
               autoFocus
@@ -122,11 +122,6 @@ function LoginForm() {
           </Link>
         </p>
 
-        {/* Demo credentials notice */}
-        <div className="mt-6 p-4 rounded-[var(--radius-md)] bg-blue-50 border border-blue-200 text-xs text-blue-800">
-          <p className="font-semibold mb-1">🔑 Demo Credentials:</p>
-          <p>Customer: ravi@example.com / Customer@123</p>
-        </div>
       </div>
     </div>
   );

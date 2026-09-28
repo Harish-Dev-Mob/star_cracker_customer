@@ -6,12 +6,7 @@ export const SITE_DESCRIPTION =
   "Premium quality firecrackers and sparklers for every festival and celebration. Explore our wide collection of safe and vibrant fireworks.";
 
 // ─── Navigation Links ─────────────────────────────────────────────────────────
-export const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Categories", href: "/categories" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-] as const;
+export const NAV_LINKS = [] as const;
 
 // ─── Product Categories ───────────────────────────────────────────────────────
 export const PRODUCT_CATEGORIES = [
@@ -30,8 +25,8 @@ export const PRODUCTS_PER_PAGE = 12;
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
 export const CONTACT_INFO = {
-  phone: "+91 98765 43210",
-  email: "info@starcracker.com",
+  phone: "+91 93443 36860",
+  email: "starcrackersoff@gmail.com",
   address: "123 Festival Lane, Sivakasi, Tamil Nadu - 626123",
   hours: "Mon–Sat: 9AM – 8PM",
 } as const;
@@ -39,7 +34,7 @@ export const CONTACT_INFO = {
 // ─── Social Links ─────────────────────────────────────────────────────────────
 export const SOCIAL_LINKS = {
   facebook: "https://facebook.com/firecrackerstore",
-  instagram: "https://instagram.com/firecrackerstore",
-  whatsapp: "https://wa.me/919876543210",
+  instagram: "https://www.instagram.com/star_crackers_official?stkn=eXE2bDFuMG9raTV5",
+  whatsapp: "https://wa.me/919344336860",
   youtube: "https://youtube.com/firecrackerstore",
 } as const;

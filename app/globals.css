@@ -324,3 +324,7 @@ textarea:disabled {
   border-radius: 9999px;
   letter-spacing: 0.025em;
 }
+
+/* ─── Scrollbar Hide ─────────────────────────────────────────────────────── */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }

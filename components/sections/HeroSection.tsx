@@ -44,18 +44,7 @@ export default function HeroSection() {
             {t.home.heroSubtitle}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/products">
-              <Button variant="accent" size="lg" className="text-base px-8">
-                🛒 {t.home.shopNow}
-              </Button>
-            </Link>
-            <Link href="/products?category=combo-packs">
-              <Button variant="secondary" size="lg" className="text-base px-8 border-white/30 text-white hover:bg-white/10 hover:text-white">
-                📦 View Combos
-              </Button>
-            </Link>
-          </div>
+
 
 
         </div>

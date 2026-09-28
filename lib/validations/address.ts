@@ -20,9 +20,7 @@ export const checkoutSchema = z.object({
   ageConsent: z.boolean().refine((val) => val === true, {
     message: "You must confirm you are 18 years or older",
   }),
-  termsAccepted: z.boolean().refine((val) => val === true, {
-    message: "You must accept the terms and safety disclaimer",
-  }),
+
   notes: z.string().max(500).optional(),
 });
 

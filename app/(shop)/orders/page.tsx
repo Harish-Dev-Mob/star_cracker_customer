@@ -272,7 +272,7 @@ export default async function OrdersPage() {
               Looks like you haven&apos;t placed any orders yet. Discover our premium fireworks collection!
             </p>
             <Link
-              href="/products"
+              href="/"
               className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-gradient-to-r from-gray-900 to-black text-white font-black rounded-xl shadow-lg hover:shadow-xl hover:shadow-black/20 hover:-translate-y-0.5 transition-all duration-300 text-sm w-full sm:w-auto"
             >
               Start Shopping

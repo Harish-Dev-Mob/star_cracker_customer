@@ -92,8 +92,7 @@ export default function CartPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                   {/* Image */}
-                  <Link
-                    href={`/products/${item.product.slug}`}
+                  <div
                     className="relative h-24 sm:h-32 w-24 sm:w-32 shrink-0 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-inner group-hover:shadow-md transition-all duration-300 z-10"
                   >
                     <Image
@@ -103,17 +102,16 @@ export default function CartPage() {
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                       onError={(e) => { (e.target as HTMLImageElement).src = "/images/products/placeholder.jpg"; }}
                     />
-                  </Link>
+                  </div>
 
                   {/* Details */}
                   <div className="flex-1 min-w-0 flex flex-col justify-between z-10">
                     <div className="flex justify-between items-start gap-4">
-                      <Link
-                        href={`/products/${item.product.slug}`}
-                        className="text-base sm:text-lg font-bold text-gray-900 dark:text-white hover:text-[var(--color-primary)] transition-colors line-clamp-2 pr-4 leading-snug"
+                      <div
+                        className="text-base sm:text-lg font-bold text-gray-900 dark:text-white transition-colors line-clamp-2 pr-4 leading-snug"
                       >
                         {item.product.name}
-                      </Link>
+                      </div>
 
                       {/* Mobile Remove Button */}
                       <button
@@ -230,7 +228,7 @@ export default function CartPage() {
                 </Button>
               </Link>
 
-              <Link href="/products" className="block mt-4">
+              <Link href="/" className="block mt-4">
                 <Button variant="ghost" className="w-full h-12 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 font-bold uppercase tracking-wider text-xs transition-colors">
                   ← Continue Shopping
                 </Button>

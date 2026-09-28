@@ -171,7 +171,7 @@ export default function AboutPage() {
             Join millions of happy families and light up your next event with our spectacular fireworks collection.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/products">
+            <Link href="/">
               <Button size="lg" variant="secondary" className="rounded-full px-10 h-14 text-lg text-orange-600 bg-white hover:bg-gray-50 shadow-xl shadow-red-900/20 hover:scale-105 transition-transform">
                 Shop Now
               </Button>

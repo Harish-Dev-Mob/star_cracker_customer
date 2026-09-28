@@ -12,9 +12,9 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { items, address, pickupLocationId, deliveryType, ageConsent, termsAccepted, notes, couponCode } = body;
+    const { items, address, pickupLocationId, deliveryType, ageConsent, notes, couponCode } = body;
 
-    if (!items || !items.length || (!address && !pickupLocationId) || !ageConsent || !termsAccepted) {
+    if (!items || !items.length || (!address && !pickupLocationId) || !ageConsent) {
       return NextResponse.json(
         { success: false, message: "Missing required fields or consent not provided" },
         { status: 400 }
@@ -188,7 +188,7 @@ export async function POST(request: Request) {
           couponCode: appliedCouponCode,
           notes,
           ageConsent: ageConsent,
-          termsAcceptedAt: termsAccepted ? new Date() : null,
+          termsAcceptedAt: null,
           returnEligible: true,
           orderItems: {
             create: orderItemsData,

@@ -1,7 +1,6 @@
 import HeroSection from "@/components/sections/HeroSection";
 import BannerCarousel from "@/components/sections/BannerCarousel";
-import CategoryGrid from "@/components/sections/CategoryGrid";
-import FeaturedProducts from "@/components/sections/FeaturedProducts";
+import AllProductsShopSection from "@/components/sections/AllProductsShopSection";
 import Testimonials from "@/components/sections/Testimonials";
 import SafetyGuidelines from "@/components/sections/SafetyGuidelines";
 import Link from "next/link";
@@ -49,8 +48,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
-      <CategoryGrid />
-      <FeaturedProducts />
+      <AllProductsShopSection />
       {reviews.length > 0 && <Testimonials reviews={reviews} />}
 
       <BannerCarousel />
@@ -77,7 +75,7 @@ export default async function HomePage() {
               </div>
             </div>
             
-            <Link href="/products" className="shrink-0 relative z-10 w-full md:w-auto">
+            <Link href="#shop" className="shrink-0 relative z-10 w-full md:w-auto">
               <Button 
                 variant="accent" 
                 size="lg" 

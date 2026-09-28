@@ -131,7 +131,7 @@ export default async function ProfilePage() {
                        </div>
                        <p className="text-gray-900 font-bold text-lg mb-1">No orders yet</p>
                        <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">You haven't placed any orders. Check out our latest collections and start shopping!</p>
-                       <Link href="/products" className="inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] text-white px-8 py-3 text-sm font-bold hover:bg-[var(--color-primary-dark)] transition-all shadow-md shadow-[var(--color-primary)]/20 hover:shadow-lg hover:shadow-[var(--color-primary)]/30 hover:-translate-y-0.5">
+                       <Link href="/" className="inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] text-white px-8 py-3 text-sm font-bold hover:bg-[var(--color-primary-dark)] transition-all shadow-md shadow-[var(--color-primary)]/20 hover:shadow-lg hover:shadow-[var(--color-primary)]/30 hover:-translate-y-0.5">
                          Start Shopping &rarr;
                        </Link>
                     </div>

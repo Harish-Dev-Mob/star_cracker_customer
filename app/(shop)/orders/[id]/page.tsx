@@ -266,19 +266,17 @@ export default async function OrderDetailsPage({ params }: Props) {
                   const img = getProductImg(item.product.images);
                   return (
                     <div key={item.id} className="p-6 flex gap-5 hover:bg-gray-50/80 transition-all duration-300 group">
-                      <Link
-                        href={`/products/${item.product.slug}`}
+                      <div
                         className="relative h-24 w-24 shrink-0 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300"
                       >
                         <Image src={img} alt={item.product.name} fill className="object-cover" />
-                      </Link>
+                      </div>
                       <div className="flex-1 flex flex-col justify-center min-w-0">
-                        <Link
-                          href={`/products/${item.product.slug}`}
-                          className="font-black text-lg text-gray-900 hover:text-[var(--color-primary)] transition-colors truncate"
+                        <div
+                          className="font-black text-lg text-gray-900 transition-colors truncate"
                         >
                           {item.product.name}
-                        </Link>
+                        </div>
                         <div className="flex items-center gap-3 mt-2">
                           <span className="text-sm font-bold text-gray-500">
                             {fmt(item.priceAtOrder)}
@@ -319,7 +317,7 @@ export default async function OrderDetailsPage({ params }: Props) {
               style={{ animationDelay: '400ms', animationFillMode: 'both' }}
             >
               <Link
-                href="/products"
+                href="/"
                 className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-gray-100 text-gray-900 text-sm font-black rounded-2xl hover:border-gray-300 hover:bg-gray-50 transition-all hover:-translate-y-1 shadow-sm"
               >
                 🎆 Continue Shopping
