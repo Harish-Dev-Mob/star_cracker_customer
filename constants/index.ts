@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION =
   "Premium quality firecrackers and sparklers for every festival and celebration. Explore our wide collection of safe and vibrant fireworks.";
 
 // ─── Navigation Links ─────────────────────────────────────────────────────────
-export const NAV_LINKS = [] as const;
+export const NAV_LINKS: { href: string; label: string }[] = [];
 
 // ─── Product Categories ───────────────────────────────────────────────────────
 export const PRODUCT_CATEGORIES = [
