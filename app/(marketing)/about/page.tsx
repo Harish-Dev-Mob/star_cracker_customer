@@ -35,7 +35,7 @@ export default function AboutPage() {
           </p>
 
           <div className="animate-slide-up flex flex-wrap justify-center gap-4" style={{ animationDelay: '0.3s' }}>
-            <Link href="/products">
+            <Link href="/">
               <Button size="lg" className="rounded-full px-8 h-14 text-base shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-transform">
                 Explore Our Collection
               </Button>

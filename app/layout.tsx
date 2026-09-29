@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
-        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="light">
           <SessionProvider>
             <Header />
             <main className="flex-1">{children}</main>

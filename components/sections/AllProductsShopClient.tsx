@@ -170,8 +170,19 @@ function ProductRow({ product }: { product: Product }) {
           {product.name}
         </h4>
         {product.weight && (
-          <span className="text-xs text-gray-500 font-medium">{product.weight}</span>
+          <span className="text-xs text-gray-500 font-medium block">{product.weight}</span>
         )}
+        {/* Mobile Price Display */}
+        <div className="sm:hidden flex items-center gap-1.5 mt-1">
+          <span className={cn("text-sm font-black", hasDiscount ? "text-green-600" : "text-gray-800")}>
+            {formatPrice(effectivePrice)}
+          </span>
+          {hasDiscount && (
+            <span className="text-[10px] font-semibold text-gray-400 line-through">
+              {formatPrice(product.price)}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* MRP */}

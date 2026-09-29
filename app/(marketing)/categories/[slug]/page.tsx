@@ -129,7 +129,7 @@ export default async function CategoryDetailPage({ params, searchParams }: Props
           <nav className="flex items-center gap-2 text-white/50 text-sm font-semibold mb-6" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white/80 transition-colors">Home</Link>
             <span>/</span>
-            <Link href="/categories" className="hover:text-white/80 transition-colors">Categories</Link>
+            <Link href="/" className="hover:text-white/80 transition-colors">Categories</Link>
             <span>/</span>
             <span className="text-white/90">{category.name}</span>
           </nav>
@@ -240,7 +240,7 @@ export default async function CategoryDetailPage({ params, searchParams }: Props
                 We&apos;re adding new items soon. Browse other categories in the meantime!
               </p>
               <Link
-                href="/categories"
+                href="/"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white font-bold rounded-2xl hover:opacity-90 transition-opacity text-sm"
               >
                 ← Back to Categories

@@ -34,24 +34,6 @@ export default function Header() {
     setIsMounted(true);
   }, []);
 
-  // Top promo bar - fetched from SiteConfig
-  const [topBannerEnabled, setTopBannerEnabled] = useState(true);
-  const [topBannerText, setTopBannerText] = useState("Festival Sale is LIVE! Up to 40% OFF on all Crackers");
-
-  useEffect(() => {
-    fetch("/api/public/site-config")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.topBannerEnabled !== undefined) {
-          setTopBannerEnabled(data.topBannerEnabled === "true");
-        }
-        if (data.topBannerText) {
-          setTopBannerText(data.topBannerText);
-        }
-      })
-      .catch(() => { /* keep defaults */ });
-  }, []);
-
   // Detect scroll for glass effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -86,14 +68,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Promo Text */}
-          {topBannerEnabled && (
-            <div className="flex items-center gap-2 font-bold uppercase tracking-widest text-orange-200">
-              <span className="animate-pulse text-sm">✨</span>
-              {topBannerText}
-              <span className="animate-pulse text-sm">✨</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -131,7 +105,7 @@ export default function Header() {
             {/* Wishlist */}
             <Link
               href="/wishlist"
-              className="relative flex items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-red-300 dark:hover:border-red-500 transition-all duration-200 group"
+              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-red-300 dark:hover:border-red-500 transition-all duration-200 group"
               aria-label={`Wishlist with ${isMounted ? wishlistCount : 0} items`}
             >
               <svg
@@ -156,7 +130,7 @@ export default function Header() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative flex items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-orange-300 dark:hover:border-orange-500 transition-all duration-200 group"
+              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-orange-300 dark:hover:border-orange-500 transition-all duration-200 group"
               aria-label={`Cart with ${isMounted ? cartCount : 0} items`}
             >
               <svg
@@ -342,7 +316,48 @@ export default function Header() {
                 </Link>
               );
             })}
-            <hr className="border-gray-100 my-3" />
+            
+            {/* Mobile Wishlist & Cart Quick Links */}
+            <div className="grid grid-cols-2 gap-3 mt-1 px-1">
+              <Link
+                href="/wishlist"
+                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-800"
+                onClick={() => setMobileOpen(false)}
+              >
+                <div className="relative">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700 dark:text-gray-300">
+                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  {isMounted && wishlistCount > 0 && (
+                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-red-500 rounded-full shadow-sm border-2 border-white dark:border-gray-900">
+                      {wishlistCount > 99 ? "99+" : wishlistCount}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[11px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mt-1">Wishlist</span>
+              </Link>
+              <Link
+                href="/cart"
+                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-800"
+                onClick={() => setMobileOpen(false)}
+              >
+                <div className="relative">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700 dark:text-gray-300">
+                    <circle cx="8" cy="21" r="1" />
+                    <circle cx="19" cy="21" r="1" />
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                  </svg>
+                  {isMounted && cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full shadow-sm border-2 border-white dark:border-gray-900">
+                      {cartCount > 99 ? "99+" : cartCount}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[11px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mt-1">Cart</span>
+              </Link>
+            </div>
+
+            <hr className="border-gray-100 dark:border-gray-800 my-3 mx-2" />
             {isAuthenticated ? (
               <div className="space-y-1">
                 {!isAdmin && (

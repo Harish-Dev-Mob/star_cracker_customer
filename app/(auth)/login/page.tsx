@@ -14,6 +14,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   const [loading, setLoading] = useState(false);
+  const [showForgotInfo, setShowForgotInfo] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,12 +40,6 @@ function LoginForm() {
       return;
     }
 
-    if (parsed.data.identifier.toLowerCase() === "admin@firecrackers.in") {
-      setErrors({ identifier: "Admin accounts cannot login here. Please use the Admin Portal." });
-      setLoading(false);
-      return;
-    }
-
     const result = await signIn("credentials", {
       identifier: parsed.data.identifier,
       password: parsed.data.password,
@@ -52,7 +47,39 @@ function LoginForm() {
     });
 
     if (result?.error) {
+      // Check if this might be an admin trying to login to the customer portal
+      // by attempting a lightweight fetch to detect role mismatch
+      const res = await fetch("/api/auth/check-role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: parsed.data.identifier }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.isAdmin) {
+          setErrors({
+            identifier:
+              "This is an admin account. Please use the Admin Portal to login.",
+          });
+          setLoading(false);
+          return;
+        }
+      }
       toast.error("Login failed", "Invalid email/phone or password");
+      setLoading(false);
+      return;
+    }
+
+    // Verify the logged-in user is not an admin (extra safety layer)
+    const sessionRes = await fetch("/api/auth/session");
+    const session = await sessionRes.json();
+    if (session?.user?.role === "ADMIN") {
+      // Sign them out immediately and show error
+      await fetch("/api/auth/signout", { method: "POST" });
+      setErrors({
+        identifier:
+          "Admin accounts are not allowed here. Please use the Admin Portal.",
+      });
       setLoading(false);
       return;
     }
@@ -93,14 +120,33 @@ function LoginForm() {
               required
               autoFocus
             />
-            <Input
-              name="password"
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              error={errors.password}
-              required
-            />
+            <div>
+              <Input
+                name="password"
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
+                error={errors.password}
+                required
+              />
+              <div className="flex justify-end mt-1">
+                <button 
+                  type="button" 
+                  onClick={() => setShowForgotInfo(!showForgotInfo)}
+                  className="text-xs font-semibold text-[var(--color-primary)] hover:underline"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+              
+              {showForgotInfo && (
+                <div className="mt-2 p-3 bg-red-50 border border-red-100 rounded-xl animate-slide-up">
+                  <p className="text-xs font-medium text-red-800 leading-relaxed">
+                    <span className="font-bold">Need help?</span> To reset your password, please contact the store admin. They will securely generate a new password for you.
+                  </p>
+                </div>
+              )}
+            </div>
             <Button
               type="submit"
               isLoading={loading}

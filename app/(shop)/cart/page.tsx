@@ -35,7 +35,7 @@ export default function CartPage() {
           <p className="text-base text-gray-500 dark:text-gray-400 mb-8 font-medium">
             Looks like you haven&apos;t added any fireworks yet. Browse our spectacular collection and light up your celebration!
           </p>
-          <Link href="/products" className="inline-block w-full sm:w-auto mb-8">
+          <Link href="/" className="inline-block w-full sm:w-auto mb-8">
             <Button variant="primary" className="w-full sm:w-auto rounded-xl h-10 px-6 text-sm shadow-lg hover:shadow-orange-500/25 transition-all group">
               <span className="group-hover:animate-sparkle mr-2 text-lg">🎆</span>
               <span className="font-bold tracking-wide uppercase">Start Shopping</span>

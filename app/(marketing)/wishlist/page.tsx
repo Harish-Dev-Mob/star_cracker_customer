@@ -79,7 +79,7 @@ export default function WishlistPage() {
                 Found something you like? Tap on the heart icon next to the item to add it to your wishlist!
               </p>
               <Link
-                href="/categories"
+                href="/"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-primary)] text-white font-bold rounded-2xl hover:opacity-90 transition-opacity text-base shadow-lg"
               >
                 Browse Categories

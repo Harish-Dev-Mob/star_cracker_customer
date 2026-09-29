@@ -17,28 +17,20 @@ export function FloatingNote() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm sm:max-w-md animate-in slide-in-from-bottom-5 fade-in duration-500">
-      <div className="bg-white/90 backdrop-blur-md border border-[var(--color-primary)]/20 shadow-lg shadow-[var(--color-primary)]/10 p-3 sm:p-4 rounded-2xl flex items-start sm:items-center gap-3 relative group">
-        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-orange-500 text-white flex items-center justify-center shadow-inner">
-          <MapPin size={20} />
+    <div className="fixed bottom-4 left-4 z-50 w-[calc(100%-2rem)] max-w-[260px] sm:max-w-[280px] animate-in slide-in-from-bottom-5 fade-in duration-500 pointer-events-none">
+      <div className="bg-white/95 backdrop-blur-md border border-[var(--color-primary)]/20 shadow-xl shadow-[var(--color-primary)]/10 p-2.5 sm:p-3 rounded-xl flex items-center gap-2.5 relative pointer-events-auto">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-orange-500 text-white flex items-center justify-center shadow-inner">
+          <MapPin size={14} />
         </div>
         
-        <div className="flex-1 pr-6">
-          <h4 className="font-bold text-gray-900 text-sm sm:text-base leading-tight mb-0.5">
+        <div className="flex-1">
+          <h4 className="font-bold text-gray-900 text-[11px] sm:text-xs uppercase tracking-wide mb-0.5">
             Delivery Notice
           </h4>
-          <p className="text-xs sm:text-sm text-gray-600 leading-snug">
-            Collect your order from the nearest delivery hub.
+          <p className="text-[10px] text-gray-500 leading-snug font-medium">
+            Once your order is delivered, you can conveniently collect it from your nearest delivery hub.
           </p>
         </div>
-
-        <button 
-          onClick={() => setIsVisible(false)}
-          className="absolute top-2 right-2 sm:top-1/2 sm:-translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-          aria-label="Close note"
-        >
-          <X size={16} />
-        </button>
       </div>
     </div>
   );

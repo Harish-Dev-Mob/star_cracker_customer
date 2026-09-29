@@ -4,7 +4,7 @@ export function FixedBottomBanner() {
       <div className="container-site flex items-center justify-center gap-3 text-white">
         <span className="text-xl animate-bounce">📍</span>
         <p className="text-sm sm:text-base font-bold drop-shadow-md text-center">
-          Delivery Notice: Collect your order from the nearest delivery hub.
+          Delivery Notice: Once your order is delivered, you can conveniently collect it from your nearest delivery hub.
         </p>
       </div>
     </div>

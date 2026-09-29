@@ -168,7 +168,7 @@ export default function CheckoutPage() {
       <div className="py-20 text-center container-site">
         <span className="text-5xl block mb-4">🛒</span>
         <h1 className="font-display text-2xl font-bold mb-3">Your cart is empty</h1>
-        <Link href="/products"><Button variant="primary">Browse Products</Button></Link>
+        <Link href="/"><Button variant="primary">Browse Products</Button></Link>
       </div>
     );
   }
@@ -196,25 +196,7 @@ export default function CheckoutPage() {
             {/* Left — Address + Consent */}
             <div className="lg:col-span-2 space-y-6">
 
-              {/* Delivery Type Selection */}
-              {siteConfig.selfPickupEnabled === "true" && (
-                <div className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">
-                  <h2 className="font-display text-lg font-bold mb-4">📦 Order Method</h2>
-                  <div className="flex gap-4">
-                    <label className={`flex-1 border p-4 rounded-xl cursor-pointer transition-colors ${deliveryType === "DELIVERY" ? "border-red-600 bg-red-50 text-red-900" : "border-gray-200 bg-gray-50 text-gray-500"}`}>
-                      <input type="radio" name="deliveryType" value="DELIVERY" checked={deliveryType === "DELIVERY"} onChange={() => setDeliveryType("DELIVERY")} className="sr-only" />
-                      <div className="font-bold text-center">Home Delivery</div>
-                    </label>
-                    <label className={`flex-1 border p-4 rounded-xl cursor-pointer transition-colors ${deliveryType === "PICKUP" ? "border-red-600 bg-red-50 text-red-900" : "border-gray-200 bg-gray-50 text-gray-500"}`}>
-                      <input type="radio" name="deliveryType" value="PICKUP" checked={deliveryType === "PICKUP"} onChange={() => setDeliveryType("PICKUP")} className="sr-only" />
-                      <div className="font-bold text-center">Self Pickup</div>
-                    </label>
-                  </div>
-                </div>
-              )}
-
               {/* Delivery Address */}
-              {deliveryType === "DELIVERY" && (
               <div key={addressLoaded ? "loaded" : "loading"} className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">
                 <h2 className="font-display text-lg font-bold mb-4">📍 Delivery Address</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -236,29 +218,6 @@ export default function CheckoutPage() {
                   <Input name="pincode" label="Pincode" placeholder="6-digit pincode" defaultValue={addressData?.pincode ?? ""} error={errors["address.pincode"]} required />
                 </div>
               </div>
-              )}
-
-              
-              {/* Pickup Location */}
-              {deliveryType === "PICKUP" && pickupLocations.length > 0 && (
-                <div className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">
-                  <h2 className="font-display text-lg font-bold mb-4">📍 Select Pickup Location</h2>
-                  <div className="space-y-4">
-                    {pickupLocations.map(loc => (
-                      <label key={loc.id} className={`block border p-4 rounded-xl cursor-pointer transition-colors ${selectedPickupLocation === loc.id ? "border-red-600 bg-red-50" : "border-gray-200 bg-gray-50 hover:bg-gray-100"}`}>
-                        <div className="flex items-start gap-3">
-                          <input type="radio" name="pickupLocationId" value={loc.id} checked={selectedPickupLocation === loc.id} onChange={() => setSelectedPickupLocation(loc.id)} className="mt-1 text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
-                          <div>
-                            <div className="font-bold text-[var(--color-text)]">{loc.name}</div>
-                            <div className="text-sm text-[var(--color-text-muted)] mt-1">{loc.address}, {loc.city}, {loc.state} {loc.pincode}</div>
-                            {loc.phone && <div className="text-sm text-[var(--color-text-muted)] mt-1">📞 {loc.phone}</div>}
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Notes */}
               <div className="p-6 rounded-[var(--radius-xl)] bg-[var(--color-bg-card)] border border-[var(--color-border)]">

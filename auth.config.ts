@@ -23,5 +23,33 @@ export const authConfig = {
       return session;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: `authjs.customer-session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    callbackUrl: {
+      name: `authjs.customer-callback-url`,
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    csrfToken: {
+      name: `authjs.customer-csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   trustHost: true,
 } satisfies NextAuthConfig;
