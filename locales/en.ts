@@ -10,7 +10,7 @@ export const en = {
   },
   home: {
     heroTitle: "Light Up Your Celebrations!",
-    heroSubtitle: "Premium fireworks, sparklers, and combo packs delivered to your doorstep.",
+    heroSubtitle: "Get the best premium fireworks, sparklers, and combo packs for your celebration!",
     shopNow: "Shop Now",
     featuredProducts: "Featured Products",
   },

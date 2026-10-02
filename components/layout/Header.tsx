@@ -12,8 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { NAV_LINKS, SITE_NAME, CONTACT_INFO } from "@/constants";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+
 import { useTranslation } from "@/store/useI18n";
 
 export default function Header() {
@@ -75,8 +74,8 @@ export default function Header() {
         className={cn(
           "sticky top-0 z-40 w-full transition-all duration-300",
           scrolled
-            ? "bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-800 shadow-sm py-2 lg:py-3"
-            : "bg-white/40 dark:bg-gray-950/40 backdrop-blur-md py-4 lg:py-5"
+            ? "bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm py-2 lg:py-3"
+            : "bg-white/40 backdrop-blur-md py-4 lg:py-5"
         )}
       >
         <div className="container-site flex items-center justify-between">
@@ -88,7 +87,7 @@ export default function Header() {
             <div className="relative flex items-center justify-center h-11 w-11 transition-all duration-300 group-hover:-translate-y-0.5">
               <Image src="/icons/logo.png" alt="Logo" fill className="object-contain" />
             </div>
-            <span className="font-display text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 tracking-tight group-hover:to-[var(--color-primary)] transition-all duration-300">
+            <span className="font-display text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 tracking-tight group-hover:to-[var(--color-primary)] transition-all duration-300">
               {SITE_NAME}
             </span>
           </Link>
@@ -105,7 +104,7 @@ export default function Header() {
             {/* Wishlist */}
             <Link
               href="/wishlist"
-              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-red-300 dark:hover:border-red-500 transition-all duration-200 group"
+              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-red-300 transition-all duration-200 group"
               aria-label={`Wishlist with ${isMounted ? wishlistCount : 0} items`}
             >
               <svg
@@ -116,7 +115,7 @@ export default function Header() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-5 w-5 text-gray-700 dark:text-gray-300 group-hover:text-red-500 transition-colors duration-300"
+                className="h-5 w-5 text-gray-700 group-hover:text-red-500 transition-colors duration-300"
               >
                 <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
@@ -130,7 +129,7 @@ export default function Header() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-orange-300 dark:hover:border-orange-500 transition-all duration-200 group"
+              className="hidden lg:flex relative items-center justify-center h-12 w-12 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-200 group"
               aria-label={`Cart with ${isMounted ? cartCount : 0} items`}
             >
               <svg
@@ -141,7 +140,7 @@ export default function Header() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-5 w-5 text-gray-700 dark:text-gray-300 group-hover:text-[var(--color-primary)] transition-colors group-hover:animate-rocket-launch duration-300"
+                className="h-5 w-5 text-gray-700 group-hover:text-[var(--color-primary)] transition-colors group-hover:animate-rocket-launch duration-300"
               >
                 <circle cx="8" cy="21" r="1" />
                 <circle cx="19" cy="21" r="1" />
@@ -159,12 +158,12 @@ export default function Header() {
               <div className="relative">
                 <button
                   onClick={() => setAccountOpen(!accountOpen)}
-                  className="hidden lg:flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-orange-200 dark:hover:border-orange-700 transition-all duration-200 cursor-pointer"
+                  className="hidden lg:flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-200 cursor-pointer"
                 >
-                  <span className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-sm font-bold shadow-inner ring-2 ring-white dark:ring-gray-900">
+                  <span className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-sm font-bold shadow-inner ring-2 ring-white">
                     {user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                   </span>
-                  <span className="text-sm font-bold text-gray-700 dark:text-gray-200 max-w-[90px] truncate">
+                  <span className="text-sm font-bold text-gray-700 max-w-[90px] truncate">
                     {user?.name?.split(" ")[0]}
                   </span>
                   <svg
@@ -182,9 +181,9 @@ export default function Header() {
                 {accountOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setAccountOpen(false)} />
-                    <div className="absolute right-0 top-14 z-50 w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-800 rounded-2xl shadow-2xl py-2 animate-pop-in origin-top-right">
+                    <div className="absolute right-0 top-14 z-50 w-64 bg-white/95 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl py-2 animate-pop-in origin-top-right">
                       <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-800">
-                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                        <p className="text-sm font-bold text-gray-900 truncate">
                           {user?.name}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400 truncate font-medium mt-0.5">
@@ -263,25 +262,25 @@ export default function Header() {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden flex items-center justify-center h-12 w-12 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="lg:hidden flex items-center justify-center h-12 w-12 rounded-full bg-white border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
               aria-label="Toggle menu"
             >
               <div className="flex flex-col gap-1.5 w-5">
                 <span
                   className={cn(
-                    "block h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 origin-center",
+                    "block h-0.5 bg-gray-800 rounded-full transition-all duration-300 origin-center",
                     mobileOpen && "rotate-45 translate-y-2"
                   )}
                 />
                 <span
                   className={cn(
-                    "block h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300",
+                    "block h-0.5 bg-gray-800 rounded-full transition-all duration-300",
                     mobileOpen && "opacity-0 scale-0"
                   )}
                 />
                 <span
                   className={cn(
-                    "block h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300 origin-center",
+                    "block h-0.5 bg-gray-800 rounded-full transition-all duration-300 origin-center",
                     mobileOpen && "-rotate-45 -translate-y-2"
                   )}
                 />
@@ -293,8 +292,8 @@ export default function Header() {
         {/* ── Mobile Menu ─────────────────────────────────────────────── */}
         <div
           className={cn(
-            "lg:hidden absolute left-0 w-full overflow-hidden transition-all duration-300 ease-in-out z-30 shadow-2xl rounded-b-3xl border-b border-gray-200/50 dark:border-gray-800",
-            "bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl",
+            "lg:hidden absolute left-0 w-full overflow-hidden transition-all duration-300 ease-in-out z-30 shadow-2xl rounded-b-3xl border-b border-gray-200/50",
+            "bg-white/95 backdrop-blur-xl",
             mobileOpen ? "max-h-[700px] opacity-100 top-full" : "max-h-0 opacity-0 top-full"
           )}
         >
@@ -321,43 +320,43 @@ export default function Header() {
             <div className="grid grid-cols-2 gap-3 mt-1 px-1">
               <Link
                 href="/wishlist"
-                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-800"
+                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100"
                 onClick={() => setMobileOpen(false)}
               >
                 <div className="relative">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700 dark:text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700">
                     <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                   {isMounted && wishlistCount > 0 && (
-                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-red-500 rounded-full shadow-sm border-2 border-white dark:border-gray-900">
+                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-red-500 rounded-full shadow-sm border-2 border-white">
                       {wishlistCount > 99 ? "99+" : wishlistCount}
                     </span>
                   )}
                 </div>
-                <span className="text-[11px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mt-1">Wishlist</span>
+                <span className="text-[11px] font-black text-gray-600 uppercase tracking-widest mt-1">Wishlist</span>
               </Link>
               <Link
                 href="/cart"
-                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-800"
+                className="flex flex-col items-center justify-center gap-1.5 py-3.5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100"
                 onClick={() => setMobileOpen(false)}
               >
                 <div className="relative">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700 dark:text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-gray-700">
                     <circle cx="8" cy="21" r="1" />
                     <circle cx="19" cy="21" r="1" />
                     <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
                   </svg>
                   {isMounted && cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full shadow-sm border-2 border-white dark:border-gray-900">
+                    <span className="absolute -top-2 -right-2.5 h-5 w-5 flex items-center justify-center text-[10px] font-black text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-full shadow-sm border-2 border-white">
                       {cartCount > 99 ? "99+" : cartCount}
                     </span>
                   )}
                 </div>
-                <span className="text-[11px] font-black text-gray-600 dark:text-gray-400 uppercase tracking-widest mt-1">Cart</span>
+                <span className="text-[11px] font-black text-gray-600 uppercase tracking-widest mt-1">Cart</span>
               </Link>
             </div>
 
-            <hr className="border-gray-100 dark:border-gray-800 my-3 mx-2" />
+            <hr className="border-gray-100 my-3 mx-2" />
             {isAuthenticated ? (
               <div className="space-y-1">
                 {!isAdmin && (
@@ -380,8 +379,8 @@ export default function Header() {
                   className={cn(
                     "flex items-center gap-3 px-5 py-3 text-[15px] font-bold rounded-xl transition-all duration-200",
                     isActive("/profile")
-                      ? "bg-orange-50 dark:bg-orange-950/40 text-[var(--color-primary)] ring-1 ring-orange-200 dark:ring-orange-800 translate-x-1"
-                      : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:translate-x-1"
+                      ? "bg-orange-50 text-[var(--color-primary)] ring-1 ring-orange-200 translate-x-1"
+                      : "text-gray-700 hover:bg-gray-50 hover:translate-x-1"
                   )}
                 >
                   <span>👤</span>
@@ -408,17 +407,13 @@ export default function Header() {
                     setMobileOpen(false);
                     setShowLogoutConfirm(true);
                   }}
-                  className="w-full text-left px-5 py-3 text-[15px] font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl cursor-pointer mt-2"
+                  className="w-full text-left px-5 py-3 text-[15px] font-bold text-red-600 hover:bg-red-50 rounded-xl cursor-pointer mt-2"
                 >
                   🚪 {t.header.logout}
                 </button>
               </div>
             ) : (
               <div className="flex flex-col gap-3 px-2 pt-2 pb-4">
-                <div className="flex items-center justify-center gap-4 py-2 border-b border-gray-100 dark:border-gray-800 mb-2">
-                  <ThemeToggle />
-                  <LanguageSwitcher />
-                </div>
                 <Link href="/login" className="w-full">
                   <Button variant="primary" className="w-full rounded-xl shadow-md h-12 text-sm uppercase tracking-wider font-bold">
                     {t.header.login}

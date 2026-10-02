@@ -119,13 +119,13 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
         "hover:border-orange-300 hover:shadow-md transition-all duration-300",
         "rounded-xl overflow-hidden",
         quantityInCart > 0 &&
-        "border-orange-300 bg-orange-50/30 dark:bg-orange-950/10",
+        "border-orange-300 bg-orange-50/40",
         className
       )}
     >
       {/* Image */}
       <div
-        className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-white dark:bg-gray-800 overflow-hidden cursor-pointer"
+        className="relative shrink-0 w-16 h-16 sm:w-24 sm:h-24 bg-white overflow-hidden cursor-pointer"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -212,7 +212,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
       </div>
 
       {/* Offer Price */}
-      <div className="hidden sm:flex flex-col items-center justify-center w-28 px-3 py-3 border-r border-[var(--color-border)] shrink-0">
+      <div className="flex flex-col items-center justify-center w-20 sm:w-28 px-1 sm:px-3 py-3 border-r border-[var(--color-border)] shrink-0">
         <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-0.5">
           Offer Price
         </p>
@@ -227,7 +227,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
       </div>
 
       {/* Quantity Stepper */}
-      <div className="flex flex-col items-center justify-center w-28 sm:w-32 px-2 sm:px-3 py-3 border-r border-[var(--color-border)] shrink-0">
+      <div className="flex flex-col items-center justify-center w-24 sm:w-32 px-1 sm:px-3 py-3 border-r border-[var(--color-border)] shrink-0">
         <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-1.5">
           Qty
         </p>
@@ -247,8 +247,8 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
               onClick={(e) => handleUpdateQty(e, quantityInCart - 1)}
               disabled={quantityInCart <= 0}
               className={cn(
-                "w-8 h-8 flex items-center justify-center text-base font-black transition-all duration-200",
-                "hover:bg-red-50 dark:hover:bg-red-950/30 active:scale-90",
+                "w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-base font-black transition-all duration-200",
+                "hover:bg-red-50 active:scale-90",
                 quantityInCart <= 0
                   ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
                   : "text-red-600 cursor-pointer"
@@ -256,7 +256,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
             >
               −
             </button>
-            <span className="w-8 h-8 flex items-center justify-center text-sm font-black text-[var(--color-text)] border-x border-[var(--color-border)]">
+            <span className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-sm font-black text-[var(--color-text)] border-x border-[var(--color-border)]">
               {quantityInCart}
             </span>
             <button
@@ -269,8 +269,8 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
               }
               disabled={quantityInCart >= product.stock}
               className={cn(
-                "w-8 h-8 flex items-center justify-center text-base font-black transition-all duration-200",
-                "hover:bg-green-50 dark:hover:bg-green-950/30 active:scale-90",
+                "w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-base font-black transition-all duration-200",
+                "hover:bg-green-50 active:scale-90",
                 quantityInCart >= product.stock
                   ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
                   : "text-green-600 cursor-pointer"
@@ -283,7 +283,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
       </div>
 
       {/* Row Total */}
-      <div className="hidden sm:flex flex-col items-center justify-center w-24 sm:w-28 px-3 py-3 border-r border-[var(--color-border)] shrink-0">
+      <div className="hidden sm:flex flex-col items-center justify-center w-20 sm:w-28 px-1 sm:px-3 py-3 border-r border-[var(--color-border)] shrink-0">
         <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-0.5">
           Total
         </p>
@@ -307,7 +307,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
             "w-8 h-8 rounded-full flex items-center justify-center shadow-sm border transition-all duration-300 hover:scale-110 active:scale-95",
             wishlisted
               ? "bg-red-500 border-red-500 text-white"
-              : "bg-white dark:bg-gray-800 border-[var(--color-border)] text-gray-400 hover:border-red-300 hover:text-red-500"
+              : "bg-white border-[var(--color-border)] text-gray-400 hover:border-red-300 hover:text-red-500"
           )}
         >
           <svg
