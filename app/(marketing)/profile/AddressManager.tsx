@@ -163,7 +163,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
           <p className="text-gray-500 text-sm max-w-sm mx-auto mb-6">
             You haven't set up a delivery address yet. Add one now to speed up your future checkouts.
           </p>
-          <Button onClick={() => handleOpenForm()} variant="secondary" className="rounded-full border-gray-200 text-gray-700 hover:bg-gray-50">
+          <Button onClick={() => handleOpenForm()} variant="primary" className="rounded-full shadow-md px-8 py-2">
             Set Up Address
           </Button>
         </div>
