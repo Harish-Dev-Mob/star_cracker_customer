@@ -454,7 +454,7 @@ export default function Header() {
             <Button
               variant="primary"
               className="w-full rounded-xl h-12 font-bold bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 shadow-[0_4px_14px_0_rgba(220,38,38,0.39)] hover:shadow-[0_6px_20px_rgba(220,38,38,0.23)] hover:-translate-y-0.5 transition-all border-none uppercase tracking-wider text-sm"
-              onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "/" })}
+              onClick={() => signOut({ callbackUrl: `${window.location.origin}/login` })}
             >
               Yes, Sign Out
             </Button>
