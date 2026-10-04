@@ -58,7 +58,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
             </div>
             <div>
               <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold mb-1">Total Amount</p>
-              <p className="text-lg font-bold text-[var(--color-primary)]">{formatPrice(order.total)} <span className="text-sm text-[var(--color-text-muted)] font-normal">(COD)</span></p>
+              <p className="text-lg font-bold text-[var(--color-primary)]">{formatPrice(order.total)}</p>
             </div>
           </div>
 

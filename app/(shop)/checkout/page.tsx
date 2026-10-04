@@ -272,7 +272,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="flex justify-between text-base font-bold">
-                    <span>Total (COD)</span>
+                    <span>Total</span>
                     <span className="text-[var(--color-primary)]">
                       {formatPrice(total)}
                     </span>
@@ -299,9 +299,7 @@ export default function CheckoutPage() {
 
 
 
-                <div className="mt-4 p-2.5 rounded-[var(--radius-md)] bg-amber-50 border border-amber-200 text-[10px] text-amber-800 text-center">
-                  💰 Cash on Delivery — Pay when your order arrives
-                </div>
+
 
                 <Button
                   type="submit"
@@ -311,7 +309,7 @@ export default function CheckoutPage() {
                   size="lg"
                   className="w-full mt-4"
                 >
-                  Place Order (COD)
+                  Place Order
                 </Button>
               </div>
             </div>

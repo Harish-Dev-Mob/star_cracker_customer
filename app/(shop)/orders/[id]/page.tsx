@@ -19,6 +19,8 @@ interface Props {
 // ─── Status Config ────────────────────────────────────────────────────────────
 
 const STATUS_STEPS = [
+  { id: "PAYMENT_PENDING", label: "Payment Pending", icon: "⏳", desc: "Awaiting payment" },
+  { id: "PAYMENT_COMPLETED", label: "Payment Completed", icon: "💳", desc: "Payment received" },
   { id: "PLACED",    label: "Order Placed",    icon: "📝", desc: "We've received your order" },
   { id: "CONFIRMED", label: "Confirmed",        icon: "✅", desc: "Order verified & accepted" },
   { id: "PACKED",    label: "Packed",           icon: "📦", desc: "Items packed & ready" },
@@ -30,6 +32,8 @@ const STATUS_HERO: Record<
   string,
   { gradient: string; text: string; lightText: string; tag: string; tagText: string }
 > = {
+  PAYMENT_PENDING: { gradient: "from-yellow-700 via-amber-800 to-slate-900", text: "text-white", lightText: "text-yellow-200", tag: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg", tagText: "Payment Pending" },
+  PAYMENT_COMPLETED: { gradient: "from-emerald-700 via-green-800 to-slate-900", text: "text-white", lightText: "text-emerald-200", tag: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg", tagText: "Payment Completed" },
   PLACED:    { gradient: "from-slate-800 via-slate-900 to-black",    text: "text-white",        lightText: "text-slate-400",  tag: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg",      tagText: "Order Placed" },
   CONFIRMED: { gradient: "from-blue-700 via-indigo-800 to-slate-900",    text: "text-white",        lightText: "text-blue-200",   tag: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg",      tagText: "Confirmed" },
   PACKED:    { gradient: "from-violet-700 via-purple-800 to-slate-900",  text: "text-white",        lightText: "text-violet-200", tag: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg",      tagText: "Packed" },
@@ -198,7 +202,7 @@ export default async function OrderDetailsPage({ params }: Props) {
               <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-1">Total Amount</p>
               <p className={`text-4xl font-black ${hero.text} drop-shadow-md`}>{fmt(order.total)}</p>
               <p className={`text-sm ${hero.lightText} mt-2 font-medium`}>
-                {order.orderItems.reduce((s, i: any) => s + i.quantity, 0)} items · <span className="text-amber-300 font-bold">COD</span>
+                {order.orderItems.reduce((s, i: any) => s + i.quantity, 0)} items
               </p>
             </div>
           </div>
@@ -375,14 +379,7 @@ export default async function OrderDetailsPage({ params }: Props) {
                     {fmt(order.total)}
                   </span>
                 </div>
-                
-                <div className="mt-6 flex items-center gap-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/60 rounded-2xl p-4 shadow-inner">
-                  <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-xl shrink-0">💰</div>
-                  <div>
-                    <p className="text-sm font-black text-amber-900">Cash on Delivery</p>
-                    <p className="text-xs text-amber-700/80 font-medium mt-0.5">Pay safely when you receive</p>
-                  </div>
-                </div>
+
               </div>
             </div>
 
