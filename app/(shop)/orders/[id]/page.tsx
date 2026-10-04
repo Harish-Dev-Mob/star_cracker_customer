@@ -19,9 +19,9 @@ interface Props {
 // ─── Status Config ────────────────────────────────────────────────────────────
 
 const STATUS_STEPS = [
+  { id: "PLACED",    label: "Order Placed",    icon: "📝", desc: "We've received your order" },
   { id: "PAYMENT_PENDING", label: "Payment Pending", icon: "⏳", desc: "Awaiting payment" },
   { id: "PAYMENT_COMPLETED", label: "Payment Completed", icon: "💳", desc: "Payment received" },
-  { id: "PLACED",    label: "Order Placed",    icon: "📝", desc: "We've received your order" },
   { id: "CONFIRMED", label: "Confirmed",        icon: "✅", desc: "Order verified & accepted" },
   { id: "PACKED",    label: "Packed",           icon: "📦", desc: "Items packed & ready" },
   { id: "SHIPPED",   label: "Out for Delivery", icon: "🚚", desc: "On the way to you" },
