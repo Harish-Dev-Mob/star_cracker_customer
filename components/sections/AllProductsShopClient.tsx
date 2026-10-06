@@ -47,15 +47,33 @@ function formatPrice(n: number) {
 }
 
 function parseImages(raw: string): string[] {
+  const fallback = ["/icons/logo.png"];
+  if (!raw || typeof raw !== "string") return fallback;
+
+  // Handle plain (non-JSON) URL strings stored directly
+  const trimmed = raw.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
+    return [trimmed];
+  }
+
   try {
-    const arr = JSON.parse(raw);
-    return Array.isArray(arr) && arr.length > 0
-      ? arr
-      : ["/icons/logo.png"];
+    const arr = JSON.parse(trimmed);
+    if (!Array.isArray(arr)) return fallback;
+
+    // Filter out empty / non-string / invalid entries
+    const valid = arr.filter(
+      (u): u is string =>
+        typeof u === "string" &&
+        u.trim().length > 0 &&
+        (u.startsWith("/") || u.startsWith("http://") || u.startsWith("https://"))
+    );
+
+    return valid.length > 0 ? valid : fallback;
   } catch {
-    return ["/icons/logo.png"];
+    return fallback;
   }
 }
+
 
 function getDiscount(orig: number, disc: number) {
   return Math.round(((orig - disc) / orig) * 100);
