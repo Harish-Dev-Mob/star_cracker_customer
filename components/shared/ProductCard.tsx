@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { cn, parseImages } from "@/lib/utils";
 import { Badge, getStockVariant } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCart, type CartProduct } from "@/hooks/useCart";
@@ -52,14 +52,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const wishlisted = isMounted && isInWishlist(product.id);
   const { t } = useTranslation();
   
-  const parsedImages: string[] = (() => {
-    try {
-      return JSON.parse(product.images);
-    } catch {
-      return ["/images/products/placeholder.jpg"];
-    }
-  })();
-  const mainImage = parsedImages[0] ?? "/images/products/placeholder.jpg";
+  const parsedImages = parseImages(product.images);
+  const mainImage = parsedImages[0] ?? "/icons/logo.png";
   const hasDiscount = product.discountPrice != null && product.discountPrice < product.price;
   const outOfStock = product.stock === 0;
 
@@ -131,7 +125,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = "/images/products/placeholder.jpg";
+            (e.target as HTMLImageElement).src = "/icons/logo.png";
           }}
         />
         

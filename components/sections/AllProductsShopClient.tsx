@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "@/lib/utils";
+import { cn, parseImages } from "@/lib/utils";
 import { useCart, type CartProduct } from "@/hooks/useCart";
 import { useWishlist, type WishlistProduct } from "@/hooks/useWishlist";
 import { toast } from "@/components/ui/Toast";
@@ -44,34 +44,6 @@ function formatPrice(n: number) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(n);
-}
-
-function parseImages(raw: string): string[] {
-  const fallback = ["/icons/logo.png"];
-  if (!raw || typeof raw !== "string") return fallback;
-
-  // Handle plain (non-JSON) URL strings stored directly
-  const trimmed = raw.trim();
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
-    return [trimmed];
-  }
-
-  try {
-    const arr = JSON.parse(trimmed);
-    if (!Array.isArray(arr)) return fallback;
-
-    // Filter out empty / non-string / invalid entries
-    const valid = arr.filter(
-      (u): u is string =>
-        typeof u === "string" &&
-        u.trim().length > 0 &&
-        (u.startsWith("/") || u.startsWith("http://") || u.startsWith("https://"))
-    );
-
-    return valid.length > 0 ? valid : fallback;
-  } catch {
-    return fallback;
-  }
 }
 
 

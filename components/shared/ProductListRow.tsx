@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "@/lib/utils";
+import { cn, parseImages } from "@/lib/utils";
 import { useCart, type CartProduct } from "@/hooks/useCart";
 import { useWishlist, type WishlistProduct } from "@/hooks/useWishlist";
 import { toast } from "@/components/ui/Toast";
@@ -51,13 +51,7 @@ export function ProductListRow({ product, className }: ProductListRowProps) {
 
   const wishlisted = isMounted && wishlistItems.some(i => i.id === product.id);
 
-  const parsedImages: string[] = (() => {
-    try {
-      return JSON.parse(product.images);
-    } catch {
-      return ["/icons/logo.png"];
-    }
-  })();
+  const parsedImages = parseImages(product.images);
   const mainImage = parsedImages[0] ?? "/icons/logo.png";
   const hasDiscount =
     product.discountPrice != null && product.discountPrice < product.price;
